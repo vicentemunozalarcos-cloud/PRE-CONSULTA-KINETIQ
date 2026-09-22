@@ -1,0 +1,1555 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>Preconsulta KINETIQ</title>
+<style>
+  :root{
+    --ink:#3D4452;
+    --ink-soft:#6C7680;
+    --ink-faint:#9AA3AB;
+    --paper:#FAFAF8;
+    --surface:#FFFFFF;
+    --surface-sunken:#F1F3F1;
+    --border:#E1E5E2;
+    --accent:#4FD1A1;
+    --accent-deep:#279C77;
+    --accent-tint:#E4F9F1;
+    --on-accent:#123A2C;
+    --alert:#E1614A;
+    --alert-tint:#FBEAE6;
+    --focus:#2E6AE6;
+    --m-principal:#E1614A;
+    --m-irradia:#DD9A2E;
+    --m-hormigueo:#3E7FD8;
+    --shadow:0 1px 2px rgba(61,68,82,.06),0 6px 16px rgba(61,68,82,.08);
+    --surface-shade:#E1E6E2;
+    --body-line:#C9A98B;
+    --body-fill:#F0D2B4;
+    --body-fill-shade:#DEB68F;
+    color-scheme:light;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ink:#EDEFF0;
+      --ink-soft:#AEB6BC;
+      --ink-faint:#7C848B;
+      --paper:#1C2023;
+      --surface:#262B2F;
+      --surface-sunken:#202427;
+      --border:#3A4045;
+      --accent:#4FD1A1;
+      --accent-deep:#7FE6C0;
+      --accent-tint:#1E3A32;
+      --on-accent:#0D241C;
+      --alert:#F0846F;
+      --alert-tint:#3A2420;
+      --focus:#6E9BFF;
+      --m-principal:#F0846F;
+      --m-irradia:#EAB35C;
+      --m-hormigueo:#6FA3EE;
+      --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.35);
+      --surface-shade:#171B1D;
+      --body-line:#8A6B4C;
+      --body-fill:#7A5B3E;
+      --body-fill-shade:#5E4530;
+      color-scheme:dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ink:#EDEFF0;
+    --ink-soft:#AEB6BC;
+    --ink-faint:#7C848B;
+    --paper:#1C2023;
+    --surface:#262B2F;
+    --surface-sunken:#202427;
+    --border:#3A4045;
+    --accent:#4FD1A1;
+    --accent-deep:#7FE6C0;
+    --accent-tint:#1E3A32;
+    --on-accent:#0D241C;
+    --alert:#F0846F;
+    --alert-tint:#3A2420;
+    --focus:#6E9BFF;
+    --m-principal:#F0846F;
+    --m-irradia:#EAB35C;
+    --m-hormigueo:#6FA3EE;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.35);
+    --surface-shade:#171B1D;
+    --body-line:#8A6B4C;
+    --body-fill:#7A5B3E;
+    --body-fill-shade:#5E4530;
+    color-scheme:dark;
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Helvetica Neue",Helvetica,Arial,"Segoe UI",sans-serif;
+    -webkit-font-smoothing:antialiased;
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    overflow-x:hidden;
+  }
+  html{height:100%;}
+  h1,h2,h3,p{margin:0;}
+  button{font-family:inherit;}
+
+  /* ---------- top bar ---------- */
+  .topbar{
+    position:sticky;
+    top:env(safe-area-inset-top,0px);
+    z-index:10;
+    background:var(--paper);
+    padding:14px 20px 10px;
+    border-bottom:1px solid var(--border);
+  }
+  .brand-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:10px;
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-weight:700;
+    font-size:15px;
+    letter-spacing:.02em;
+    color:var(--ink);
+  }
+  .brand-dot{
+    width:9px;height:9px;border-radius:50%;
+    background:var(--accent);
+    flex:none;
+  }
+  .step-count{
+    font-size:12px;
+    color:var(--ink-faint);
+    font-variant-numeric:tabular-nums;
+  }
+  .progress-track{
+    height:5px;
+    border-radius:3px;
+    background:var(--surface-sunken);
+    overflow:hidden;
+  }
+  .progress-fill{
+    height:100%;
+    background:var(--accent);
+    border-radius:3px;
+    transition:width .25s ease;
+  }
+  .section-label{
+    margin-top:8px;
+    font-size:12.5px;
+    color:var(--ink-soft);
+    font-weight:600;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+  }
+
+  /* ---------- main ---------- */
+  main{
+    flex:1;
+    overflow-y:auto;
+    padding:20px 20px 28px;
+  }
+  .panel{
+    max-width:480px;
+    margin:0 auto;
+    display:flex;
+    flex-direction:column;
+    gap:22px;
+  }
+  .q-title{
+    font-size:20px;
+    line-height:1.3;
+    font-weight:700;
+    color:var(--ink);
+    text-wrap:balance;
+  }
+  .q-help{
+    font-size:13.5px;
+    color:var(--ink-soft);
+    line-height:1.5;
+    margin-top:4px;
+  }
+  .field{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+  .field-label{
+    font-size:13px;
+    font-weight:600;
+    color:var(--ink-soft);
+  }
+  .field-label .optional{
+    font-weight:400;
+    color:var(--ink-faint);
+  }
+
+  input[type="text"], textarea{
+    width:100%;
+    border:1px solid var(--border);
+    background:var(--surface);
+    color:var(--ink);
+    border-radius:12px;
+    padding:12px 14px;
+    font-size:15px;
+    font-family:inherit;
+    resize:vertical;
+  }
+  input[type="text"]:focus, textarea:focus{
+    outline:2px solid var(--focus);
+    outline-offset:1px;
+  }
+  textarea{min-height:76px;}
+
+  /* ---------- chips ---------- */
+  .chip-group{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .chip{
+    border:1px solid var(--border);
+    background:var(--surface);
+    color:var(--ink);
+    border-radius:999px;
+    padding:11px 16px;
+    font-size:14.5px;
+    line-height:1.2;
+    min-height:44px;
+    display:inline-flex;
+    align-items:center;
+    cursor:pointer;
+    transition:background .12s ease, border-color .12s ease, color .12s ease;
+  }
+  .chip:active{transform:scale(.98);}
+  .chip[aria-pressed="true"]{
+    background:var(--accent-tint);
+    border-color:var(--accent);
+    color:var(--accent-deep);
+    font-weight:600;
+  }
+  .chip:focus-visible{outline:2px solid var(--focus); outline-offset:2px;}
+
+  /* ---------- yes/no segmented ---------- */
+  .yn-row{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:14px;
+    padding:14px 0;
+    border-bottom:1px solid var(--border);
+  }
+  .yn-row:last-child{border-bottom:none;}
+  .yn-text{
+    font-size:14.5px;
+    line-height:1.45;
+    color:var(--ink);
+    flex:1;
+  }
+  .yn-seg{
+    display:flex;
+    border:1px solid var(--border);
+    border-radius:10px;
+    overflow:hidden;
+    flex:none;
+  }
+  .yn-btn{
+    border:none;
+    background:var(--surface);
+    color:var(--ink-soft);
+    font-size:13.5px;
+    font-weight:600;
+    padding:10px 16px;
+    min-height:44px;
+    cursor:pointer;
+  }
+  .yn-btn + .yn-btn{border-left:1px solid var(--border);}
+  .yn-btn[aria-pressed="true"].yn-yes{background:var(--alert-tint); color:var(--alert);}
+  .yn-btn[aria-pressed="true"].yn-no{background:var(--accent-tint); color:var(--accent-deep);}
+
+  /* ---------- sliders ---------- */
+  .slider-block{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+  .slider-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+  }
+  .slider-title{font-size:14.5px; font-weight:600; color:var(--ink);}
+  .slider-value{
+    font-size:18px;
+    font-weight:700;
+    color:var(--accent-deep);
+    font-variant-numeric:tabular-nums;
+  }
+  input[type="range"]{
+    -webkit-appearance:none;
+    width:100%;
+    height:6px;
+    border-radius:3px;
+    background:var(--surface-sunken);
+    margin:6px 0;
+  }
+  input[type="range"]::-webkit-slider-thumb{
+    -webkit-appearance:none;
+    width:26px;height:26px;
+    border-radius:50%;
+    background:var(--accent);
+    border:3px solid var(--surface);
+    box-shadow:var(--shadow);
+    cursor:pointer;
+  }
+  input[type="range"]::-moz-range-thumb{
+    width:26px;height:26px;
+    border-radius:50%;
+    background:var(--accent);
+    border:3px solid var(--surface);
+    box-shadow:var(--shadow);
+    cursor:pointer;
+  }
+  .slider-scale{
+    display:flex;
+    justify-content:space-between;
+    font-size:11.5px;
+    color:var(--ink-faint);
+  }
+  .slider-help{
+    font-size:12.5px;
+    color:var(--ink-soft);
+    line-height:1.45;
+    margin-top:-2px;
+  }
+  .slider-block.pain-scale input[type="range"]{
+    background:linear-gradient(to right, #22B8A0 0%, #6FCB9F 22%, #EAB93E 52%, #E68A3C 76%, #E1614A 100%);
+  }
+  .slider-block.pain-scale input[type="range"]::-webkit-slider-thumb{
+    background:var(--thumb-color, var(--accent));
+  }
+  .slider-block.pain-scale input[type="range"]::-moz-range-thumb{
+    background:var(--thumb-color, var(--accent));
+  }
+  .slider-block.pain-scale .slider-value{
+    transition:color .15s ease;
+  }
+
+  /* ---------- body chart ---------- */
+  .marktype-row{display:flex; flex-direction:column; gap:8px;}
+  .marktype-chip{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    border:1.5px solid var(--border);
+    background:var(--surface);
+    border-radius:12px;
+    padding:11px 14px;
+    cursor:pointer;
+    text-align:left;
+    width:100%;
+  }
+  .marktype-chip[aria-pressed="true"]{border-color:var(--dot-color, var(--ink)); background:var(--surface-sunken);}
+  .marktype-swatch{width:15px;height:15px;border-radius:5px;flex:none;margin-top:3px;}
+  .marktype-text{display:flex; flex-direction:column; gap:2px;}
+  .marktype-chip .marktype-label{font-size:14.5px; font-weight:700; color:var(--ink);}
+  .marktype-chip .marktype-desc{font-size:12.5px; font-weight:400; color:var(--ink-soft); line-height:1.4;}
+
+  .view-caption{
+    font-size:13px;
+    color:var(--ink-soft);
+    text-align:center;
+    margin-top:-6px;
+  }
+  .view-caption b{color:var(--ink); font-weight:700;}
+
+  .view-tabs{
+    display:flex;
+    background:var(--surface-sunken);
+    border-radius:10px;
+    padding:3px;
+    gap:3px;
+  }
+  .view-tab{
+    flex:1;
+    border:none;
+    background:transparent;
+    color:var(--ink-soft);
+    font-size:13.5px;
+    font-weight:600;
+    padding:9px 0;
+    border-radius:8px;
+    cursor:pointer;
+    min-height:40px;
+  }
+  .view-tab[aria-pressed="true"]{background:var(--surface); color:var(--ink); box-shadow:var(--shadow);}
+
+  .body-svg-wrap{
+    position:relative;
+    display:flex;
+    justify-content:center;
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:14px 10px;
+    -webkit-user-select:none;
+    user-select:none;
+  }
+  .body-stage{ position:relative; width:min(300px,82vw); }
+  .body-stage svg{ display:block; width:100%; height:auto; overflow:visible; }
+  .body-stage canvas{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    touch-action:none;
+    cursor:crosshair;
+  }
+  .body-photo{ pointer-events:none; }
+  .draw-tools{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+  }
+  .draw-tool-btn{
+    border:1px solid var(--border);
+    background:var(--surface);
+    color:var(--ink-soft);
+    border-radius:10px;
+    padding:9px 14px;
+    font-size:13px;
+    font-weight:600;
+    min-height:40px;
+    cursor:pointer;
+  }
+  .draw-tool-btn:active{ background:var(--surface-sunken); }
+  .marks-summary{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .mark-chip{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    border-radius:999px;
+    padding:7px 8px 7px 12px;
+    font-size:12.5px;
+    font-weight:600;
+    border:1px solid transparent;
+  }
+  .mark-chip button{
+    border:none;
+    background:rgba(0,0,0,.12);
+    color:inherit;
+    width:18px;height:18px;
+    border-radius:50%;
+    font-size:12px;
+    line-height:1;
+    cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .empty-hint{
+    font-size:13px;
+    color:var(--ink-faint);
+    font-style:italic;
+  }
+
+  /* ---------- footer nav ---------- */
+  footer{
+    position:sticky;
+    bottom:0;
+    padding:12px 20px calc(14px + env(safe-area-inset-bottom,0px));
+    background:var(--paper);
+    border-top:1px solid var(--border);
+    display:flex;
+    gap:10px;
+    z-index:10;
+  }
+  .btn{
+    border:none;
+    border-radius:12px;
+    font-size:15.5px;
+    font-weight:700;
+    padding:14px 18px;
+    min-height:50px;
+    cursor:pointer;
+    flex:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+  }
+  .btn-primary{background:var(--accent-deep); color:#fff;}
+  .btn-primary:disabled{background:var(--surface-sunken); color:var(--ink-faint); cursor:not-allowed;}
+  .btn-ghost{background:var(--surface); color:var(--ink); border:1px solid var(--border); flex:0 0 92px;}
+  .btn-whatsapp{background:#22A85C; color:#fff;}
+  .btn-email{background:var(--surface); color:var(--ink); border:1.5px solid var(--ink);}
+  .validation-hint{
+    font-size:12.5px;
+    color:var(--alert);
+    text-align:center;
+    margin-top:-8px;
+  }
+
+  /* ---------- summary (resumen) ---------- */
+  .summary-card{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:16px;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+  .summary-card h3{
+    font-size:12.5px;
+    text-transform:uppercase;
+    letter-spacing:.05em;
+    color:var(--accent-deep);
+    font-weight:700;
+  }
+  .summary-row{
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+    font-size:13.5px;
+    line-height:1.5;
+  }
+  .summary-row dt{color:var(--ink-soft); flex:0 0 auto; max-width:46%;}
+  .summary-row dd{color:var(--ink); text-align:right; margin:0;}
+  .flag-warn{
+    display:flex;
+    gap:8px;
+    align-items:flex-start;
+    background:var(--alert-tint);
+    color:var(--alert);
+    border-radius:10px;
+    padding:10px 12px;
+    font-size:13px;
+    font-weight:600;
+    line-height:1.4;
+  }
+  .sent-note{
+    font-size:12.5px;
+    color:var(--ink-faint);
+    text-align:center;
+    line-height:1.5;
+  }
+  .welcome-hero{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+  }
+  .welcome-hero .kicker{
+    font-size:12.5px;
+    font-weight:700;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    color:var(--accent-deep);
+  }
+</style>
+
+<div class="topbar">
+  <div class="brand-row">
+    <div class="brand"><span class="brand-dot"></span>KINETIQ · Preconsulta</div>
+    <div class="step-count" id="stepCount"></div>
+  </div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="section-label" id="sectionLabel"></div>
+</div>
+
+<main><div class="panel" id="panel"></div></main>
+
+<footer id="footer"></footer>
+
+<script>
+(function(){
+  "use strict";
+
+  /* =========================================================
+     CONFIGURACIÓN — edita estos dos valores antes de compartir
+     el cuestionario con pacientes.
+     ========================================================= */
+  var CONFIG = {
+    // Número de WhatsApp de la clínica, con prefijo de país y SIN
+    // espacios, "+" ni ceros iniciales. Ejemplo España: "34600111222"
+    whatsappNumber: "",
+    // Email donde deben llegar las respuestas
+    email: ""
+  };
+
+  /* ---------------------------------------------------------
+     Estado
+     --------------------------------------------------------- */
+  var state = {
+    step: 0,
+    nombre: "",
+    motivo: "",
+    tiempoEvolucion: "",
+    mecanismoInicio: "",
+    bodyView: "anterior",
+    markerActive: "principal",
+    body: { anterior: {}, posterior: {} },
+    bodyStrokes: { anterior: [], posterior: [] },
+    evaActual: 3,
+    evaMax: 5,
+    descriptores: [],
+    patron: [],
+    flags: { fiebre: null, peso: null, nocturno: null, fuerza: null, esfinteres: null, trauma: null },
+    medicacion: null,
+    medicacionDetalle: "",
+    sueno: 3,
+    estres: 3,
+    fabq: 2,
+    actividadLimitada: "",
+    dificultad: 5,
+    sent: false
+  };
+
+  /* ---------------------------------------------------------
+     Datos de referencia
+     --------------------------------------------------------- */
+  var TIEMPO_OPCIONES = ["Menos de 1 semana","Entre 1 y 4 semanas","Entre 1 y 3 meses","Más de 3 meses"];
+  var MECANISMO_OPCIONES = ["Un golpe o traumatismo directo","Un sobreesfuerzo puntual (p. ej. levantar peso)","Apareció poco a poco, sin motivo claro","Ha vuelto a aparecer — ya lo había tenido antes"];
+  var DESCRIPTOR_OPCIONES = ["Sorda / profunda","Punzante","Quemazón","Eléctrica / hormigueo","Difusa, cuesta localizarla","Rigidez"];
+  var PATRON_OPCIONES = ["Por la mañana, con rigidez","Aumenta con la actividad o la carga","Por la noche","Bastante constante durante el día"];
+
+  var RED_FLAGS = [
+    { key:"fiebre", text:"¿Tienes fiebre en los últimos días sin una causa clara (como un resfriado)?" },
+    { key:"peso", text:"¿Has perdido peso recientemente sin buscarlo ni haber cambiado tu alimentación?" },
+    { key:"nocturno", text:"¿El dolor te despierta por la noche y no mejora al cambiar de postura?" },
+    { key:"fuerza", text:"¿Has notado una pérdida de fuerza repentina en un brazo o una pierna?" },
+    { key:"esfinteres", text:"¿Has notado cambios en el control de la vejiga o el intestino, o menos sensibilidad en la zona genital o los glúteos?" },
+    { key:"trauma", text:"¿Ha habido un golpe o accidente de importancia relacionado con esta molestia?" }
+  ];
+
+  var CANVAS_SCALE = 2.4; // canvas px per viewBox unit, for crisp drawing on retina screens
+  var BRUSH_WIDTH = 15;   // brush width in viewBox units
+
+  /* Color feedback for pain-intensity sliders: azul-verde (poca molestia)
+     -> ámbar -> naranja-rojo (mucha molestia), interpolated live as the
+     patient drags. Pure visual feedback; carries no clinical language. */
+  var PAIN_COLOR_STOPS = ["#22B8A0", "#6FCB9F", "#EAB93E", "#E68A3C", "#E1614A"];
+  function lerpColor(a, b, t){
+    var ah = parseInt(a.slice(1), 16), bh = parseInt(b.slice(1), 16);
+    var ar=(ah>>16)&255, ag=(ah>>8)&255, ab=ah&255;
+    var br=(bh>>16)&255, bg=(bh>>8)&255, bb=bh&255;
+    var rr=Math.round(ar+(br-ar)*t), rg=Math.round(ag+(bg-ag)*t), rb=Math.round(ab+(bb-ab)*t);
+    return "#"+("000000"+((rr<<16)|(rg<<8)|rb).toString(16)).slice(-6);
+  }
+  function painColor(value, min, max){
+    var t = max>min ? (value-min)/(max-min) : 0;
+    t = Math.max(0, Math.min(1, t));
+    var segs = PAIN_COLOR_STOPS.length - 1;
+    var scaled = t*segs;
+    var i = Math.min(segs-1, Math.floor(scaled));
+    return lerpColor(PAIN_COLOR_STOPS[i], PAIN_COLOR_STOPS[i+1], scaled-i);
+  }
+
+  var MARK_TYPES = [
+    { key:"principal", label:"Dolor principal", short:"Dolor", varc:"--m-principal",
+      desc:"El dolor tal y como lo sientes ahora mismo, en la zona donde más te molesta." },
+    { key:"irradia", label:"Dolor eléctrico o irradiado", short:"Eléctrico", varc:"--m-irradia",
+      desc:"Corriente, quemazón o pinchazos que se extienden desde la zona principal hacia otra parte (p. ej. del glúteo hacia la pierna)." },
+    { key:"hormigueo", label:"Hormigueo o adormecimiento", short:"Hormigueo", varc:"--m-hormigueo",
+      desc:"Sensación de hormigueo, \"agujetas\" en la piel, o zonas donde notas menos sensibilidad." }
+  ];
+
+  /* Anatomical hit-testing geometry, traced from the real photographic body
+     image used as the visual background (see renderBodyChart). Each region
+     is a tapered vertical "ribbon" defined by keyframes {y, cx, hw} (centre-x
+     and half-width) in the view's own 240-wide coordinate space, linearly
+     interpolated and sampled into a polygon used only for hit-testing
+     (nothing here is drawn — the photo supplies all visible anatomy).
+     Front and back use separate geometry, each traced from its own crop;
+     within each view, the right-hand-side limbs are traced once (image-left,
+     the "_R" keys) and mirrored for the "_L" side. */
+  var VIEW_DIMS = { anterior:{ w:240, h:445.8 }, posterior:{ w:240, h:494.2 } };
+
+  var BODY_KEYFRAMES_BY_VIEW = {
+    anterior: {
+      cuello:   [{y:39.8,cx:120.2,hw:24.7},{y:47.8,cx:120.2,hw:19.5},{y:59.7,cx:119.8,hw:19.1},{y:65.7,cx:119.8,hw:21.9},{y:70.8,cx:120.0,hw:37.2}],
+      torso_up: [{y:70.8,cx:120.0,hw:37.2},{y:77.6,cx:120.0,hw:38.4},{y:83.6,cx:120.0,hw:39.4},{y:95.5,cx:120.0,hw:41.5},{y:107.5,cx:120.0,hw:43.5},{y:119.4,cx:120.0,hw:45.6},{y:131.3,cx:120.0,hw:47.7},{y:143.3,cx:120.0,hw:49.7},{y:149.3,cx:119.0,hw:49.8},{y:161.2,cx:119.0,hw:43.4}],
+      torso_lo: [{y:161.2,cx:119.0,hw:43.4},{y:167.2,cx:119.0,hw:45.4},{y:173.1,cx:119.4,hw:47.8},{y:179.1,cx:119.2,hw:48.4},{y:185.1,cx:119.0,hw:49.8},{y:191.0,cx:119.0,hw:51.3},{y:197.0,cx:119.2,hw:52.7}],
+      hombro_R: [{y:70.8,cx:75.6,hw:2.0},{y:77.6,cx:72.6,hw:9.0},{y:83.6,cx:68.2,hw:12.4},{y:95.5,cx:64.7,hw:13.8},{y:107.5,cx:64.1,hw:12.4},{y:119.4,cx:62.7,hw:11.7},{y:131.3,cx:60.4,hw:11.9},{y:143.3,cx:58.0,hw:12.3},{y:149.3,cx:56.9,hw:12.3}],
+      brazo_R:  [{y:149.3,cx:54.3,hw:9.8},{y:155.2,cx:52.5,hw:10.3},{y:161.2,cx:52.9,hw:14.3},{y:167.2,cx:50.7,hw:14.5},{y:173.1,cx:48.6,hw:14.7},{y:179.1,cx:46.6,hw:13.9},{y:185.1,cx:44.6,hw:13.1},{y:191.0,cx:42.6,hw:11.9},{y:197.0,cx:40.4,hw:10.9},{y:203.0,cx:37.8,hw:10.3},{y:209.0,cx:34.8,hw:9.4},{y:214.9,cx:32.4,hw:9.8},{y:220.9,cx:27.1,hw:14.3},{y:226.9,cx:24.9,hw:16.5},{y:232.8,cx:22.5,hw:17.3},{y:238.8,cx:24.1,hw:14.5},{y:244.8,cx:22.7,hw:7.2}],
+      cad_R:    [{y:197.0,cx:94.6,hw:27.4},{y:203.0,cx:94.3,hw:27.7},{y:209.0,cx:93.9,hw:28.1},{y:214.9,cx:93.3,hw:28.7},{y:224.9,cx:92.1,hw:29.9}],
+      muslo_R:  [{y:224.9,cx:91.1,hw:31.4},{y:262.7,cx:87.0,hw:26.5},{y:286.6,cx:87.4,hw:22.5},{y:310.4,cx:88.8,hw:17.9},{y:322.4,cx:86.0,hw:16.3}],
+      pier_R:   [{y:322.4,cx:86.0,hw:16.3},{y:334.3,cx:85.8,hw:18.1},{y:358.2,cx:86.4,hw:14.7},{y:382.1,cx:86.2,hw:9.4},{y:400.0,cx:87.4,hw:9.0},{y:417.9,cx:84.0,hw:12.3},{y:427.9,cx:84.0,hw:13.9}]
+    },
+    posterior: {
+      cuello:   [{y:45.7,cx:117.5,hw:25.1},{y:54.9,cx:117.5,hw:21.9},{y:68.6,cx:117.9,hw:21.5},{y:75.4,cx:118.6,hw:26.3},{y:82.3,cx:118.9,hw:29.7}],
+      torso_up: [{y:82.3,cx:120.0,hw:29.7},{y:89.1,cx:120.0,hw:63.3},{y:109.7,cx:120.0,hw:59.7},{y:123.4,cx:120.0,hw:57.3},{y:137.1,cx:120.0,hw:54.9},{y:150.9,cx:120.0,hw:52.6},{y:164.6,cx:120.0,hw:50.1},{y:178.3,cx:120.2,hw:48.0},{y:185.1,cx:120.5,hw:47.3}],
+      torso_lo: [{y:185.1,cx:120.5,hw:47.3},{y:192.0,cx:120.7,hw:47.5},{y:198.9,cx:121.1,hw:50.3},{y:205.7,cx:121.1,hw:52.1},{y:212.6,cx:121.1,hw:53.0},{y:219.4,cx:121.6,hw:54.9},{y:226.3,cx:121.8,hw:56.5}],
+      hombro_R: [{y:82.3,cx:56.7,hw:2.3},{y:89.1,cx:56.7,hw:2.3},{y:109.7,cx:50.5,hw:9.8},{y:123.4,cx:52.1,hw:10.5},{y:137.1,cx:53.8,hw:11.2},{y:150.9,cx:53.8,hw:13.6},{y:164.6,cx:53.7,hw:16.2},{y:178.3,cx:53.9,hw:18.3}],
+      brazo_R:  [{y:178.3,cx:47.1,hw:11.4},{y:185.1,cx:47.3,hw:10.7},{y:192.0,cx:45.9,hw:16.7},{y:198.9,cx:44.1,hw:16.7},{y:205.7,cx:42.3,hw:16.7},{y:212.6,cx:40.7,hw:15.5},{y:219.4,cx:38.9,hw:14.6},{y:226.3,cx:37.3,hw:13.0},{y:233.1,cx:34.5,hw:11.7},{y:240.0,cx:32.5,hw:11.0},{y:246.9,cx:29.7,hw:10.1},{y:253.7,cx:24.7,hw:13.3},{y:260.6,cx:22.6,hw:15.8},{y:267.4,cx:24.2,hw:14.6},{y:274.3,cx:23.3,hw:15.1},{y:281.1,cx:22.9,hw:15.5}],
+      cad_R:    [{y:226.3,cx:92.9,hw:29.4},{y:233.1,cx:92.3,hw:30.0},{y:240.0,cx:92.2,hw:30.1},{y:246.9,cx:91.7,hw:30.6},{y:274.3,cx:89.8,hw:32.5},{y:299.4,cx:89.1,hw:33.1}],
+      muslo_R:  [{y:299.4,cx:90.7,hw:31.1},{y:322.3,cx:89.8,hw:26.3},{y:342.9,cx:92.1,hw:23.1},{y:363.4,cx:93.7,hw:20.1},{y:377.1,cx:91.0,hw:17.8}],
+      pier_R:   [{y:377.1,cx:91.0,hw:17.8},{y:397.7,cx:91.2,hw:20.3},{y:425.1,cx:93.3,hw:16.5},{y:452.6,cx:93.9,hw:10.7},{y:480.0,cx:94.4,hw:10.3},{y:490.5,cx:94.6,hw:9.1}]
+    }
+  };
+
+  function mirrorFrames(frames){
+    return frames.map(function(f){ return { y:f.y, cx:240-f.cx, hw:f.hw }; });
+  }
+
+  var REGION_ORDER = ["cuello","hombro_L","hombro_R","torso_up","torso_lo","brazo_L","brazo_R","cad_L","cad_R","muslo_L","muslo_R","pier_L","pier_R"];
+
+  function buildRegionShapes(kf){
+    return {
+      cuello:   kf.cuello,
+      torso_up: kf.torso_up,
+      torso_lo: kf.torso_lo,
+      hombro_R: kf.hombro_R,
+      hombro_L: mirrorFrames(kf.hombro_R),
+      brazo_R:  kf.brazo_R,
+      brazo_L:  mirrorFrames(kf.brazo_R),
+      cad_R:    kf.cad_R,
+      cad_L:    mirrorFrames(kf.cad_R),
+      muslo_R:  kf.muslo_R,
+      muslo_L:  mirrorFrames(kf.muslo_R),
+      pier_R:   kf.pier_R,
+      pier_L:   mirrorFrames(kf.pier_R)
+    };
+  }
+
+  function interpFrame(frames, y){
+    if(y<=frames[0].y) return { cx:frames[0].cx, hw:frames[0].hw };
+    for(var i=0;i<frames.length-1;i++){
+      var a=frames[i], b=frames[i+1];
+      if(y>=a.y && y<=b.y){
+        var t=(y-a.y)/(b.y-a.y);
+        return { cx:a.cx+(b.cx-a.cx)*t, hw:a.hw+(b.hw-a.hw)*t };
+      }
+    }
+    var last=frames[frames.length-1];
+    return { cx:last.cx, hw:last.hw };
+  }
+
+  function ribbonPoints(frames, step){
+    step = step || 3;
+    var yTop=frames[0].y, yBot=frames[frames.length-1].y;
+    var left=[], right=[], y;
+    for(y=yTop; y<yBot; y+=step){
+      var p=interpFrame(frames,y);
+      left.push((p.cx-p.hw).toFixed(1)+","+y);
+      right.push((p.cx+p.hw).toFixed(1)+","+y);
+    }
+    var pB=interpFrame(frames,yBot);
+    left.push((pB.cx-pB.hw).toFixed(1)+","+yBot);
+    right.push((pB.cx+pB.hw).toFixed(1)+","+yBot);
+    right.reverse();
+    return left.concat(right).join(" ");
+  }
+
+  function ribbonPolygon(frames, step){
+    return ribbonPoints(frames, step).split(" ").map(function(pair){
+      var xy = pair.split(",");
+      return [parseFloat(xy[0]), parseFloat(xy[1])];
+    });
+  }
+
+  var REGION_SHAPES_BY_VIEW = {
+    anterior: buildRegionShapes(BODY_KEYFRAMES_BY_VIEW.anterior),
+    posterior: buildRegionShapes(BODY_KEYFRAMES_BY_VIEW.posterior)
+  };
+
+  var REGION_POLYGONS_BY_VIEW = { anterior:{}, posterior:{} };
+  ["anterior","posterior"].forEach(function(view){
+    REGION_ORDER.forEach(function(key){
+      REGION_POLYGONS_BY_VIEW[view][key] = ribbonPolygon(REGION_SHAPES_BY_VIEW[view][key], 3);
+    });
+  });
+
+  function pointInPolygon(poly, x, y){
+    var inside = false;
+    for(var i=0, j=poly.length-1; i<poly.length; j=i++){
+      var xi=poly[i][0], yi=poly[i][1], xj=poly[j][0], yj=poly[j][1];
+      var intersect = ((yi>y) !== (yj>y)) && (x < (xj-xi)*(y-yi)/(yj-yi)+xi);
+      if(intersect) inside = !inside;
+    }
+    return inside;
+  }
+
+  function regionAtPoint(view, x, y){
+    var polys = REGION_POLYGONS_BY_VIEW[view];
+    for(var i=0;i<REGION_ORDER.length;i++){
+      var key = REGION_ORDER[i];
+      if(pointInPolygon(polys[key], x, y)) return key;
+    }
+    return null;
+  }
+
+  function recomputeBodyMarks(view){
+    var result = {};
+    state.bodyStrokes[view].forEach(function(stroke){
+      stroke.points.forEach(function(pt){
+        var key = regionAtPoint(view, pt.x, pt.y);
+        if(key) result[key] = stroke.type;
+      });
+    });
+    state.body[view] = result;
+  }
+
+  var VIEW_LABELS = {
+    anterior: {
+      title:"Vista frontal",
+      cuello:"Cuello", hombro_L:"Hombro derecho", hombro_R:"Hombro izquierdo",
+      torso_up:"Pecho", torso_lo:"Abdomen",
+      brazo_L:"Brazo derecho", brazo_R:"Brazo izquierdo",
+      cad_L:"Cadera derecha", cad_R:"Cadera izquierda",
+      muslo_L:"Muslo derecho", muslo_R:"Muslo izquierdo",
+      pier_L:"Pierna derecha", pier_R:"Pierna izquierda"
+    },
+    posterior: {
+      title:"Vista posterior",
+      cuello:"Nuca", hombro_L:"Hombro izquierdo", hombro_R:"Hombro derecho",
+      torso_up:"Espalda alta", torso_lo:"Espalda baja",
+      brazo_L:"Brazo izquierdo", brazo_R:"Brazo derecho",
+      cad_L:"Glúteo izquierdo", cad_R:"Glúteo derecho",
+      muslo_L:"Muslo izquierdo", muslo_R:"Muslo derecho",
+      pier_L:"Pierna izquierda", pier_R:"Pierna derecha"
+    }
+  };
+
+  /* ---------------------------------------------------------
+     Pasos
+     --------------------------------------------------------- */
+  var STEPS = [
+    { id:"intro", section:"Motivo y cronología", render:renderIntro, valid:function(){ return state.motivo.trim().length>0; } },
+    { id:"cronologia", section:"Motivo y cronología", render:renderCronologia, valid:function(){ return !!state.tiempoEvolucion && !!state.mecanismoInicio; } },
+    { id:"bodychart", section:"Mapa de la molestia", render:renderBodyChart, valid:function(){ return true; } },
+    { id:"dolor", section:"Características del dolor", render:renderDolor, valid:function(){ return state.descriptores.length>0 && state.patron.length>0; } },
+    { id:"flags", section:"Cribado de seguridad", render:renderFlags, valid:function(){ return RED_FLAGS.every(function(f){ return state.flags[f.key]!==null; }); } },
+    { id:"medicacion", section:"Medicación actual", render:renderMedicacion, valid:function(){ return state.medicacion!==null; } },
+    { id:"sueno", section:"Sueño y estrés", render:renderSuenoEstres, valid:function(){ return true; } },
+    { id:"funcion", section:"Función y miedo al movimiento", render:renderFuncion, valid:function(){ return true; } },
+    { id:"resumen", section:"Revisar y enviar", render:renderResumen, valid:function(){ return true; } }
+  ];
+
+  /* ---------------------------------------------------------
+     Render raíz
+     --------------------------------------------------------- */
+  function render(){
+    var s = STEPS[state.step];
+    document.getElementById("panel").innerHTML = s.render();
+    document.getElementById("footer").innerHTML = renderFooter(s);
+    document.getElementById("sectionLabel").textContent = s.section;
+    document.getElementById("stepCount").textContent = "Paso " + (state.step+1) + " de " + STEPS.length;
+    document.getElementById("progressFill").style.width = (state.step/(STEPS.length-1)*100) + "%";
+    if(s.id==="bodychart") mountBodyCanvas();
+  }
+
+  /* ---------------------------------------------------------
+     Lienzo de dibujo libre sobre el cuerpo
+     --------------------------------------------------------- */
+  function cssColor(varName){
+    var v = getComputedStyle(document.documentElement).getPropertyValue(varName);
+    return v ? v.trim() : "#999999";
+  }
+
+  function drawStrokeScaled(ctx, stroke, scale){
+    if(stroke.points.length===0) return;
+    ctx.save();
+    ctx.globalAlpha = 0.5;
+    ctx.strokeStyle = cssColor("--m-"+stroke.type);
+    ctx.lineWidth = BRUSH_WIDTH * scale;
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
+    ctx.beginPath();
+    stroke.points.forEach(function(pt, i){
+      var cx = pt.x*scale, cy = pt.y*scale;
+      if(i===0){ ctx.moveTo(cx,cy); if(stroke.points.length===1){ ctx.lineTo(cx+0.1,cy+0.1); } }
+      else ctx.lineTo(cx,cy);
+    });
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  function drawStroke(ctx, stroke){
+    drawStrokeScaled(ctx, stroke, CANVAS_SCALE);
+  }
+
+  function redrawCanvas(canvas, view){
+    var ctx = canvas.getContext("2d");
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    state.bodyStrokes[view].forEach(function(stroke){ drawStroke(ctx, stroke); });
+  }
+
+  /* ---------------------------------------------------------
+     Exportar el mapa corporal como imagen (para compartir con
+     el texto de la preconsulta, o para descargar y adjuntar a
+     mano si el navegador no admite compartir archivos).
+     --------------------------------------------------------- */
+  var VIEW_PHOTO = { anterior:"body-anterior.png", posterior:"body-posterior.png" };
+  var VIEW_NATIVE = { anterior:{w:603,h:1120}, posterior:{w:525,h:1081} };
+
+  function loadImage(src){
+    return new Promise(function(resolve, reject){
+      var img = new Image();
+      img.onload = function(){ resolve(img); };
+      img.onerror = reject;
+      img.src = src;
+    });
+  }
+
+  function renderViewCanvas(view, targetW){
+    return loadImage(VIEW_PHOTO[view]).then(function(img){
+      var native = VIEW_NATIVE[view];
+      var dims = VIEW_DIMS[view];
+      var scale = targetW / native.w;
+      var w = Math.round(native.w*scale), h = Math.round(native.h*scale);
+      var c = document.createElement("canvas");
+      c.width = w; c.height = h;
+      var ctx = c.getContext("2d");
+      ctx.drawImage(img, 0, 0, w, h);
+      var strokeScale = w / dims.w;
+      state.bodyStrokes[view].forEach(function(stroke){
+        drawStrokeScaled(ctx, stroke, strokeScale);
+      });
+      return c;
+    });
+  }
+
+  function buildBodyChartImageFile(){
+    var targetW = 340;
+    return Promise.all([renderViewCanvas("anterior", targetW), renderViewCanvas("posterior", targetW)]).then(function(canvases){
+      var gap = 18, pad = 16, labelH = 24;
+      var w = canvases[0].width + gap + canvases[1].width + pad*2;
+      var h = Math.max(canvases[0].height, canvases[1].height) + labelH + pad*2;
+      var out = document.createElement("canvas");
+      out.width = w; out.height = h;
+      var ctx = out.getContext("2d");
+      ctx.fillStyle = "#FFFFFF";
+      ctx.fillRect(0,0,w,h);
+      ctx.fillStyle = "#3D4452";
+      ctx.font = "600 13px -apple-system,Helvetica,Arial,sans-serif";
+      ctx.textBaseline = "top";
+      ctx.fillText("Vista frontal", pad, pad);
+      ctx.fillText("Vista posterior", pad + canvases[0].width + gap, pad);
+      ctx.drawImage(canvases[0], pad, pad+labelH);
+      ctx.drawImage(canvases[1], pad+canvases[0].width+gap, pad+labelH);
+      return new Promise(function(resolve, reject){
+        out.toBlob(function(blob){
+          if(!blob){ reject(new Error("toBlob failed")); return; }
+          resolve(new File([blob], "mapa-corporal-kinetiq.png", { type:"image/png" }));
+        }, "image/png");
+      });
+    });
+  }
+
+  /* Último recurso si la capacidad "downloads" de la plataforma no está
+     disponible (p. ej. la página abierta fuera del visor de artefactos):
+     un enlace blob de toda la vida. Dentro del visor de artefactos esto no
+     hace nada, por eso se intenta primero window.claude.use("downloads"). */
+  function fallbackDownload(file){
+    var url = URL.createObjectURL(file);
+    var a = document.createElement("a");
+    a.href = url;
+    a.download = file.name || "mapa-corporal-kinetiq.png";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function(){ URL.revokeObjectURL(url); }, 4000);
+  }
+
+  function mountBodyCanvas(){
+    var canvas = document.getElementById("bodyCanvas");
+    if(!canvas) return;
+    var ctx = canvas.getContext("2d");
+    redrawCanvas(canvas, state.bodyView);
+
+    var drawing = false;
+    var current = null;
+
+    function toViewBoxPoint(e){
+      var dims = VIEW_DIMS[state.bodyView];
+      var rect = canvas.getBoundingClientRect();
+      var relX = (e.clientX - rect.left) / rect.width;
+      var relY = (e.clientY - rect.top) / rect.height;
+      return { x: relX*dims.w, y: relY*dims.h };
+    }
+
+    function onDown(e){
+      drawing = true;
+      current = { type: state.markerActive, points: [] };
+      canvas.setPointerCapture(e.pointerId);
+      var pt = toViewBoxPoint(e);
+      current.points.push(pt);
+      drawStroke(ctx, current);
+      e.preventDefault();
+    }
+    function onMove(e){
+      if(!drawing) return;
+      var pt = toViewBoxPoint(e);
+      var prev = current.points[current.points.length-1];
+      current.points.push(pt);
+      var seg = { type: current.type, points: [prev, pt] };
+      drawStroke(ctx, seg);
+      e.preventDefault();
+    }
+    function onUp(e){
+      if(!drawing) return;
+      drawing = false;
+      if(current && current.points.length>0){
+        state.bodyStrokes[state.bodyView].push(current);
+        recomputeBodyMarks(state.bodyView);
+      }
+      current = null;
+      render();
+    }
+
+    canvas.onpointerdown = onDown;
+    canvas.onpointermove = onMove;
+    canvas.onpointerup = onUp;
+    canvas.onpointercancel = onUp;
+    canvas.onpointerleave = function(e){ if(drawing) onUp(e); };
+  }
+
+  function resetScroll(){
+    document.querySelector("main").scrollTop = 0;
+  }
+
+  function renderFooter(s){
+    if(s.id==="resumen") return renderFooterResumen();
+    var canNext = s.valid();
+    var html = "";
+    html += state.step>0 ? '<button class="btn btn-ghost" data-nav="back">Atrás</button>' : '<div style="flex:0 0 0;"></div>';
+    html += '<button class="btn btn-primary" data-nav="next" '+(canNext?"":"disabled")+'>' + (canNext ? "Siguiente" : "Completa esta pantalla") + '</button>';
+    return html;
+  }
+  function renderFooterResumen(){
+    return '<button class="btn btn-ghost" data-nav="back">Atrás</button>' +
+           '<button class="btn btn-primary" data-nav="restart" style="flex:0 0 44px;" title="Empezar de nuevo">↺</button>';
+  }
+
+  /* ---------------------------------------------------------
+     Paso: Intro
+     --------------------------------------------------------- */
+  function renderIntro(){
+    return ''+
+    '<div class="welcome-hero">'+
+      '<div class="kicker">Antes de tu sesión</div>'+
+      '<h1 class="q-title">Cuéntanos qué te trae por aquí</h1>'+
+      '<p class="q-help">Son unas pocas preguntas rápidas. Nos ayudan a preparar tu primera sesión y aprovechar mejor el tiempo contigo. Tardarás menos de 4 minutos.</p>'+
+    '</div>'+
+    '<div class="field">'+
+      '<label class="field-label" for="in-nombre">Nombre y apellidos <span class="optional">(opcional)</span></label>'+
+      '<input type="text" id="in-nombre" data-text="nombre" value="'+esc(state.nombre)+'" placeholder="Tu nombre" autocomplete="name">'+
+    '</div>'+
+    '<div class="field">'+
+      '<label class="field-label" for="in-motivo">¿Qué te trae a la consulta?</label>'+
+      '<textarea id="in-motivo" data-text="motivo" placeholder="Ej. molestia en la zona lumbar desde hace dos semanas">'+esc(state.motivo)+'</textarea>'+
+    '</div>';
+  }
+
+  /* ---------------------------------------------------------
+     Paso: Cronología
+     --------------------------------------------------------- */
+  function renderCronologia(){
+    return ''+
+    '<h1 class="q-title">¿Desde cuándo lo notas y cómo empezó?</h1>'+
+    '<div class="field">'+
+      '<label class="field-label">Tiempo de evolución</label>'+
+      chipGroup(TIEMPO_OPCIONES, state.tiempoEvolucion, "tiempoEvolucion", false)+
+    '</div>'+
+    '<div class="field">'+
+      '<label class="field-label">¿Cómo empezó?</label>'+
+      chipGroup(MECANISMO_OPCIONES, state.mecanismoInicio, "mecanismoInicio", false)+
+    '</div>';
+  }
+
+  /* ---------------------------------------------------------
+     Paso: Body chart
+     --------------------------------------------------------- */
+  function renderBodyChart(){
+    var marktypeHtml = MARK_TYPES.map(function(m){
+      var pressed = state.markerActive===m.key;
+      return '<button type="button" class="marktype-chip" data-marktype="'+m.key+'" aria-pressed="'+pressed+'" style="--dot-color:var('+m.varc+')">'+
+        '<span class="marktype-swatch" style="background:var('+m.varc+')"></span>'+
+        '<span class="marktype-text"><span class="marktype-label">'+m.label+'</span><span class="marktype-desc">'+m.desc+'</span></span>'+
+        '</button>';
+    }).join("");
+
+    var viewTabs = ''+
+      '<div class="view-tabs">'+
+        '<button type="button" class="view-tab" data-view="anterior" aria-pressed="'+(state.bodyView==="anterior")+'">Vista frontal</button>'+
+        '<button type="button" class="view-tab" data-view="posterior" aria-pressed="'+(state.bodyView==="posterior")+'">Vista posterior</button>'+
+      '</div>';
+
+    var labels = VIEW_LABELS[state.bodyView];
+    var viewCaption = state.bodyView==="anterior" ?
+      '<p class="view-caption">Estás viendo tu cuerpo <b>de frente</b>, como si te miraras en un espejo.</p>' :
+      '<p class="view-caption">Estás viendo tu cuerpo <b>de espaldas</b>, tal y como lo vería alguien detrás de ti.</p>';
+
+    var dims = VIEW_DIMS[state.bodyView];
+    var photoHref = state.bodyView==="anterior" ? "body-anterior.png" : "body-posterior.png";
+
+    var svg = ''+
+      '<div class="body-svg-wrap"><div class="body-stage" style="aspect-ratio:'+dims.w+'/'+dims.h+';">'+
+        '<svg viewBox="0 0 '+dims.w+' '+dims.h+'" role="img" aria-label="'+labels.title+'" preserveAspectRatio="xMidYMid meet">'+
+          '<image class="body-photo" href="'+photoHref+'" x="0" y="0" width="'+dims.w+'" height="'+dims.h+'" preserveAspectRatio="xMidYMid meet"></image>'+
+        '</svg>'+
+        '<canvas id="bodyCanvas" width="'+Math.round(dims.w*CANVAS_SCALE)+'" height="'+Math.round(dims.h*CANVAS_SCALE)+'" aria-hidden="true"></canvas>'+
+      '</div></div>';
+
+    var summaryChips = [];
+    ["anterior","posterior"].forEach(function(view){
+      var vLabels = VIEW_LABELS[view];
+      var vMarks = state.body[view];
+      Object.keys(vMarks).forEach(function(k){
+        if(vMarks[k]){
+          var mt = MARK_TYPES.filter(function(m){return m.key===vMarks[k];})[0];
+          summaryChips.push({view:view, key:k, label:vLabels[k], type:mt});
+        }
+      });
+    });
+
+    var summaryHtml = summaryChips.length ?
+      '<div class="marks-summary">'+ summaryChips.map(function(c){
+        return '<span class="mark-chip" style="background:color-mix(in srgb, var('+c.type.varc+') 18%, transparent); color:var('+c.type.varc+')">'+c.label+' · '+c.type.short+'</span>';
+      }).join("") +'</div>'
+      : '<p class="empty-hint">Todavía no has dibujado ninguna zona.</p>';
+
+    var hasStrokes = state.bodyStrokes[state.bodyView].length>0;
+    var drawTools = ''+
+      '<div class="draw-tools">'+
+        '<button type="button" class="draw-tool-btn" data-draw-action="undo" '+(hasStrokes?"":"disabled")+'>Deshacer último trazo</button>'+
+        '<button type="button" class="draw-tool-btn" data-draw-action="clear" '+(hasStrokes?"":"disabled")+'>Borrar esta vista</button>'+
+      '</div>';
+
+    return ''+
+    '<h1 class="q-title">¿Dónde notas la molestia?</h1>'+
+    '<p class="q-help">Elige el tipo de sensación y dibuja con el dedo directamente sobre el cuerpo, como si lo colorearas. Puedes cambiar de vista y de tipo cuantas veces quieras.</p>'+
+    '<div class="marktype-row">'+marktypeHtml+'</div>'+
+    viewTabs+
+    viewCaption+
+    svg+
+    drawTools+
+    '<div class="field"><label class="field-label">Zonas dibujadas</label>'+summaryHtml+'</div>';
+  }
+
+  /* ---------------------------------------------------------
+     Paso: Dolor (intensidad + descriptores + patrón)
+     --------------------------------------------------------- */
+  function renderDolor(){
+    return ''+
+    '<h1 class="q-title">¿Cómo es tu dolor o molestia?</h1>'+
+    slider("Intensidad ahora mismo","evaActual",state.evaActual,0,10,"Sin molestia","La peor imaginable",{
+      pain:true,
+      help:"0 = no notas nada · 3-4 = la notas pero no te limita · 5-6 = interfiere en algunas actividades · 7-8 = te cuesta concentrarte o dormir · 9-10 = la peor que puedas imaginar."
+    })+
+    slider("Intensidad máxima en los últimos 7 días","evaMax",state.evaMax,0,10,"Sin molestia","La peor imaginable",{
+      pain:true,
+      help:"Piensa en el peor momento de esta última semana y sitúalo en la misma escala."
+    })+
+    '<div class="field"><label class="field-label">¿Cómo lo describirías? (elige las que encajen)</label>'+
+      chipGroup(DESCRIPTOR_OPCIONES, state.descriptores, "descriptores", true)+
+    '</div>'+
+    '<div class="field"><label class="field-label">¿Cuándo empeora?</label>'+
+      chipGroup(PATRON_OPCIONES, state.patron, "patron", true)+
+    '</div>';
+  }
+
+  /* ---------------------------------------------------------
+     Paso: Cribado de seguridad
+     --------------------------------------------------------- */
+  function renderFlags(){
+    var rows = RED_FLAGS.map(function(f){
+      var v = state.flags[f.key];
+      return '<div class="yn-row"><div class="yn-text">'+f.text+'</div>'+
+        '<div class="yn-seg">'+
+          '<button type="button" class="yn-btn yn-no" data-toggle="flag" data-key="'+f.key+'" data-value="no" aria-pressed="'+(v===false)+'">No</button>'+
+          '<button type="button" class="yn-btn yn-yes" data-toggle="flag" data-key="'+f.key+'" data-value="si" aria-pressed="'+(v===true)+'">Sí</button>'+
+        '</div></div>';
+    }).join("");
+    return ''+
+    '<h1 class="q-title">Unas preguntas de seguridad</h1>'+
+    '<p class="q-help">Preguntas breves que nos ayudan a asegurarnos de que la fisioterapia es el abordaje adecuado para ti ahora mismo.</p>'+
+    '<div>'+rows+'</div>';
+  }
+
+  /* ---------------------------------------------------------
+     Paso: Medicación
+     --------------------------------------------------------- */
+  function renderMedicacion(){
+    var v = state.medicacion;
+    return ''+
+    '<h1 class="q-title">¿Estás tomando alguna medicación para esta molestia?</h1>'+
+    '<div class="yn-row" style="border-bottom:none;"><div class="yn-text">Analgésicos, antiinflamatorios, relajantes musculares u otra medicación</div>'+
+      '<div class="yn-seg">'+
+        '<button type="button" class="yn-btn yn-no" data-toggle="medicacion" data-value="no" aria-pressed="'+(v===false)+'">No</button>'+
+        '<button type="button" class="yn-btn yn-yes" data-toggle="medicacion" data-value="si" aria-pressed="'+(v===true)+'">Sí</button>'+
+      '</div></div>'+
+    (v===true ? '<div class="field"><label class="field-label" for="in-med">¿Qué tomas, en qué dosis y cuándo? <span class="optional">(lo que recuerdes)</span></label>'+
+      '<textarea id="in-med" data-text="medicacionDetalle" placeholder="Ej. ibuprofeno 600mg, una vez al día por la noche">'+esc(state.medicacionDetalle)+'</textarea></div>' : "");
+  }
+
+  /* ---------------------------------------------------------
+     Paso: Sueño y estrés
+     --------------------------------------------------------- */
+  function renderSuenoEstres(){
+    return ''+
+    '<h1 class="q-title">¿Cómo estás durmiendo y de qué nivel de estrés vienes?</h1>'+
+    slider("Calidad del sueño en los últimos días","sueno",state.sueno,1,5,"Muy mala","Muy buena")+
+    slider("Nivel de estrés percibido","estres",state.estres,1,5,"Muy bajo","Muy alto");
+  }
+
+  /* ---------------------------------------------------------
+     Paso: Función y miedo al movimiento
+     --------------------------------------------------------- */
+  function renderFuncion(){
+    return ''+
+    '<h1 class="q-title">Tu día a día</h1>'+
+    slider("\"Creo que debería evitar moverme porque podría empeorar\"","fabq",state.fabq,0,6,"En desacuerdo","De acuerdo")+
+    '<div class="field">'+
+      '<label class="field-label" for="in-act">¿Qué 1 o 2 actividades te cuestan más ahora mismo? <span class="optional">(opcional)</span></label>'+
+      '<textarea id="in-act" data-text="actividadLimitada" placeholder="Ej. subir escaleras, correr, dormir de lado, coger en brazos a mi hijo">'+esc(state.actividadLimitada)+'</textarea>'+
+    '</div>'+
+    slider("Dificultad actual para hacerlas","dificultad",state.dificultad,0,10,"No puedo hacerla","Igual que antes");
+  }
+
+  /* ---------------------------------------------------------
+     Paso: Resumen
+     --------------------------------------------------------- */
+  function renderResumen(){
+    var anyFlag = RED_FLAGS.some(function(f){ return state.flags[f.key]===true; });
+    var bodyCount = countMarks();
+    var html = '<h1 class="q-title">Revisa y envía tus respuestas</h1>'+
+      '<p class="q-help">Comprueba que todo esté correcto y envíanoslo. Lo recibiremos antes de tu sesión.</p>';
+
+    if(anyFlag){
+      html += '<div class="flag-warn">Has marcado algún punto en el cribado de seguridad. No es motivo de alarma: lo revisaremos contigo con prioridad antes de la sesión.</div>';
+    }
+
+    html += summaryCard("Motivo y cronología", [
+      ["Motivo", state.motivo || "—"],
+      ["Evolución", state.tiempoEvolucion || "—"],
+      ["Cómo empezó", state.mecanismoInicio || "—"]
+    ]);
+    html += summaryCard("Mapa de la molestia", [
+      ["Zonas marcadas", bodyCount>0 ? bodyCount+" zona(s)" : "Ninguna"]
+    ]);
+    html += summaryCard("Dolor", [
+      ["Intensidad ahora", state.evaActual+"/10"],
+      ["Máxima (7 días)", state.evaMax+"/10"],
+      ["Descripción", state.descriptores.join(", ") || "—"],
+      ["Empeora", state.patron.join(", ") || "—"]
+    ]);
+    html += summaryCard("Cribado de seguridad", [
+      ["Puntos marcados", anyFlag ? RED_FLAGS.filter(function(f){return state.flags[f.key];}).length+" de "+RED_FLAGS.length : "Ninguno"]
+    ]);
+    html += summaryCard("Medicación", [
+      ["¿Toma medicación?", state.medicacion===true?"Sí":"No"]
+    ]);
+    html += summaryCard("Sueño, estrés y función", [
+      ["Sueño", state.sueno+"/5"],
+      ["Estrés", state.estres+"/5"]
+    ]);
+
+    var canNativeShare = typeof navigator!=="undefined" && typeof navigator.share==="function";
+
+    html += '<div style="display:flex;flex-direction:column;gap:10px;">'+
+      (canNativeShare ?
+        '<button type="button" class="btn btn-whatsapp" data-send="share" id="btn-share">Compartir respuestas (con el mapa corporal)</button>'+
+        '<p class="sent-note" id="share-status">&nbsp;</p>'+
+        '<button type="button" class="btn btn-ghost" style="flex:1;" data-send="whatsapp">Enviar solo texto por WhatsApp</button>'+
+        '<button type="button" class="btn btn-ghost" style="flex:1;" data-send="email">Enviar solo texto por email</button>'
+        :
+        '<button type="button" class="btn btn-whatsapp" data-send="whatsapp">Enviar por WhatsApp</button>'+
+        '<button type="button" class="btn btn-email" data-send="email">Enviar por email</button>'+
+        '<button type="button" class="btn btn-ghost" style="flex:1;" data-send="download-image">Descargar imagen del mapa corporal</button>'+
+        '<p class="sent-note" id="share-status">&nbsp;</p>'
+      )+
+      '</div>';
+    html += canNativeShare ?
+      '<p class="sent-note">Se abrirá el panel para compartir de tu móvil: elige WhatsApp, Mail o Mensajes y se enviarán el texto y una imagen con el mapa corporal marcado, juntos.</p>' :
+      '<p class="sent-note">Se abrirá tu app de WhatsApp o de correo con el mensaje de texto ya preparado. Descarga también la imagen del mapa corporal y adjúntala a mano antes de enviar.</p>';
+    return html;
+  }
+
+  function summaryCard(title, rows){
+    var body = rows.map(function(r){
+      return '<div class="summary-row"><dt>'+r[0]+'</dt><dd>'+esc(String(r[1]))+'</dd></div>';
+    }).join("");
+    return '<div class="summary-card"><h3>'+title+'</h3><dl style="margin:0;display:flex;flex-direction:column;gap:6px;">'+body+'</dl></div>';
+  }
+
+  function countMarks(){
+    var n = 0;
+    ["anterior","posterior"].forEach(function(v){
+      Object.keys(state.body[v]).forEach(function(k){ if(state.body[v][k]) n++; });
+    });
+    return n;
+  }
+
+  /* ---------------------------------------------------------
+     Componentes reutilizables
+     --------------------------------------------------------- */
+  function chipGroup(options, selected, stateKey, multi){
+    var html = '<div class="chip-group">';
+    options.forEach(function(opt){
+      var isSel = multi ? selected.indexOf(opt)>-1 : selected===opt;
+      html += '<button type="button" class="chip" data-chip data-key="'+stateKey+'" data-multi="'+(multi?"1":"0")+'" data-value="'+esc(opt)+'" aria-pressed="'+isSel+'">'+opt+'</button>';
+    });
+    html += '</div>';
+    return html;
+  }
+
+  function slider(title, key, value, min, max, lowLabel, highLabel, opts){
+    opts = opts || {};
+    var isPain = !!opts.pain;
+    var color = isPain ? painColor(value, min, max) : null;
+    return ''+
+    '<div class="slider-block'+(isPain?" pain-scale":"")+'">'+
+      (opts.help ? '<p class="slider-help">'+opts.help+'</p>' : '')+
+      '<div class="slider-head"><span class="slider-title">'+title+'</span><span class="slider-value" id="val-'+key+'"'+(isPain?' style="color:'+color+';"':'')+'>'+value+'</span></div>'+
+      '<input type="range" min="'+min+'" max="'+max+'" step="1" value="'+value+'" data-slider="'+key+'"'+(isPain?' data-pain="1" style="--thumb-color:'+color+';"':'')+'>'+
+      '<div class="slider-scale"><span>'+lowLabel+'</span><span>'+highLabel+'</span></div>'+
+    '</div>';
+  }
+
+  function esc(str){
+    return String(str==null?"":str).replace(/[&<>"']/g, function(c){
+      return ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[c];
+    });
+  }
+
+  /* ---------------------------------------------------------
+     Mensaje final
+     --------------------------------------------------------- */
+  function buildMessage(){
+    var fecha = new Date().toLocaleDateString("es-ES", { day:"2-digit", month:"long", year:"numeric" });
+    var lines = [];
+    lines.push("PRECONSULTA KINETIQ" + (state.nombre ? " — " + state.nombre : ""));
+    lines.push("Fecha: " + fecha);
+    lines.push("");
+    lines.push("1) MOTIVO Y CRONOLOGÍA");
+    lines.push("Motivo: " + (state.motivo || "—"));
+    lines.push("Tiempo de evolución: " + (state.tiempoEvolucion || "—"));
+    lines.push("Mecanismo de inicio: " + (state.mecanismoInicio || "—"));
+    lines.push("");
+    lines.push("2) MAPA DE LA MOLESTIA");
+    ["anterior","posterior"].forEach(function(view){
+      var vLabels = VIEW_LABELS[view];
+      var vMarks = state.body[view];
+      var items = Object.keys(vMarks).filter(function(k){return vMarks[k];}).map(function(k){
+        var mt = MARK_TYPES.filter(function(m){return m.key===vMarks[k];})[0];
+        return vLabels[k] + " (" + mt.label + ")";
+      });
+      lines.push((view==="anterior"?"Vista frontal":"Vista posterior") + ": " + (items.length?items.join(", "):"sin zonas marcadas"));
+    });
+    lines.push("");
+    lines.push("3) CARACTERÍSTICAS DEL DOLOR");
+    lines.push("Intensidad actual (0-10): " + state.evaActual);
+    lines.push("Intensidad máxima 7 días (0-10): " + state.evaMax);
+    lines.push("Descripción: " + (state.descriptores.join(", ") || "—"));
+    lines.push("Empeora: " + (state.patron.join(", ") || "—"));
+    lines.push("");
+    lines.push("4) CRIBADO DE SEGURIDAD");
+    RED_FLAGS.forEach(function(f){
+      var v = state.flags[f.key];
+      var prefix = v===true ? "[REVISAR] " : "";
+      lines.push(prefix + f.text + " " + (v===true?"Sí":v===false?"No":"Sin responder"));
+    });
+    lines.push("");
+    lines.push("5) MEDICACIÓN ACTUAL");
+    lines.push("¿Toma medicación?: " + (state.medicacion===true?"Sí":"No"));
+    if(state.medicacion===true) lines.push("Detalle: " + (state.medicacionDetalle || "—"));
+    lines.push("");
+    lines.push("6) SUEÑO, ESTRÉS Y FUNCIÓN");
+    lines.push("Calidad del sueño (1-5): " + state.sueno);
+    lines.push("Nivel de estrés (1-5): " + state.estres);
+    lines.push("Miedo al movimiento (FABQ breve, 0-6): " + state.fabq);
+    lines.push("Actividades más limitadas: " + (state.actividadLimitada || "—"));
+    lines.push("Dificultad actual (0-10, PSFS): " + state.dificultad);
+    lines.push("");
+    lines.push("— Enviado desde el cuestionario preconsulta KINETIQ");
+    return lines.join("\n");
+  }
+
+  /* ---------------------------------------------------------
+     Envío
+     --------------------------------------------------------- */
+  function handleSend(kind){
+    if(kind==="share"){
+      var statusEl = document.getElementById("share-status");
+      var btnEl = document.getElementById("btn-share");
+      if(statusEl) statusEl.textContent = "Preparando imagen del mapa corporal…";
+      if(btnEl) btnEl.disabled = true;
+      buildBodyChartImageFile().then(function(file){
+        var msg = buildMessage();
+        var shareData = { title:"Preconsulta KINETIQ", text: msg, files:[file] };
+        if(navigator.canShare && !navigator.canShare(shareData)){
+          delete shareData.files; // el dispositivo no admite compartir archivos; se comparte solo el texto
+        }
+        return navigator.share(shareData);
+      }).then(function(){
+        if(statusEl) statusEl.textContent = "";
+      }).catch(function(err){
+        if(err && err.name==="AbortError") { if(statusEl) statusEl.textContent = ""; return; }
+        if(statusEl) statusEl.textContent = "No se pudo compartir automáticamente. Usa los botones de abajo para enviar el texto, o descarga la imagen aparte.";
+      }).finally(function(){
+        if(btnEl) btnEl.disabled = false;
+      });
+      return;
+    }
+    if(kind==="download-image"){
+      var dlStatusEl = document.getElementById("share-status");
+      if(dlStatusEl) dlStatusEl.textContent = "Preparando imagen…";
+      buildBodyChartImageFile().then(function(file){
+        if(window.claude && typeof window.claude.use==="function"){
+          window.claude.use("downloads").then(function(downloads){
+            if(!downloads) throw new Error("downloads capability unavailable");
+            return downloads.save({ filename:"mapa-corporal-kinetiq.png", data:file });
+          }).then(function(){
+            if(dlStatusEl) dlStatusEl.textContent = "Imagen descargada. Adjúntala al mensaje antes de enviarlo.";
+          }).catch(function(err){
+            if(err && err.code==="declined"){ if(dlStatusEl) dlStatusEl.textContent = ""; return; }
+            fallbackDownload(file);
+            if(dlStatusEl) dlStatusEl.textContent = "Imagen descargada. Adjúntala al mensaje antes de enviarlo.";
+          });
+        } else {
+          fallbackDownload(file);
+          if(dlStatusEl) dlStatusEl.textContent = "Imagen descargada. Adjúntala al mensaje antes de enviarlo.";
+        }
+      });
+      return;
+    }
+    var msg = buildMessage();
+    if(kind==="whatsapp"){
+      var base = CONFIG.whatsappNumber ? ("https://wa.me/"+CONFIG.whatsappNumber) : "https://wa.me/";
+      window.open(base + "?text=" + encodeURIComponent(msg), "_blank");
+    } else {
+      var subject = "Preconsulta KINETIQ" + (state.nombre?(" — "+state.nombre):"");
+      var mailto = "mailto:" + (CONFIG.email||"") + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(msg);
+      window.location.href = mailto;
+    }
+  }
+
+  /* ---------------------------------------------------------
+     Navegación y eventos
+     --------------------------------------------------------- */
+  function goNext(){
+    if(!STEPS[state.step].valid()) return;
+    if(state.step < STEPS.length-1){ state.step++; render(); resetScroll(); }
+  }
+  function goBack(){
+    if(state.step>0){ state.step--; render(); resetScroll(); }
+  }
+  function restart(){
+    if(!window.confirm("¿Empezar el cuestionario de nuevo? Se borrarán las respuestas.")) return;
+    state = Object.assign({}, state, {
+      step:0, nombre:"", motivo:"", tiempoEvolucion:"", mecanismoInicio:"",
+      bodyView:"anterior", markerActive:"principal", body:{anterior:{},posterior:{}}, bodyStrokes:{anterior:[],posterior:[]},
+      evaActual:3, evaMax:5, descriptores:[], patron:[],
+      flags:{fiebre:null,peso:null,nocturno:null,fuerza:null,esfinteres:null,trauma:null},
+      medicacion:null, medicacionDetalle:"", sueno:3, estres:3, fabq:2,
+      actividadLimitada:"", dificultad:5
+    });
+    render();
+    resetScroll();
+  }
+
+  document.addEventListener("click", function(e){
+    var nav = e.target.closest("[data-nav]");
+    if(nav){
+      var a = nav.dataset.nav;
+      if(a==="next") goNext();
+      else if(a==="back") goBack();
+      else if(a==="restart") restart();
+      return;
+    }
+    var chip = e.target.closest("[data-chip]");
+    if(chip){
+      var key = chip.dataset.key, val = chip.dataset.value, multi = chip.dataset.multi==="1";
+      if(multi){
+        var arr = state[key];
+        var idx = arr.indexOf(val);
+        if(idx>-1) arr.splice(idx,1); else arr.push(val);
+      } else {
+        state[key] = (state[key]===val) ? "" : val;
+      }
+      render();
+      return;
+    }
+    var toggle = e.target.closest("[data-toggle]");
+    if(toggle){
+      var kind = toggle.dataset.toggle;
+      var value = toggle.dataset.value==="si";
+      if(kind==="flag") state.flags[toggle.dataset.key] = value;
+      else if(kind==="medicacion") state.medicacion = value;
+      render();
+      return;
+    }
+    var marktype = e.target.closest("[data-marktype]");
+    if(marktype){ state.markerActive = marktype.dataset.marktype; render(); return; }
+
+    var viewTab = e.target.closest("[data-view]");
+    if(viewTab){ state.bodyView = viewTab.dataset.view; render(); return; }
+
+    var drawAction = e.target.closest("[data-draw-action]");
+    if(drawAction){
+      var view = state.bodyView;
+      if(drawAction.dataset.drawAction==="undo") state.bodyStrokes[view].pop();
+      else if(drawAction.dataset.drawAction==="clear") state.bodyStrokes[view] = [];
+      recomputeBodyMarks(view);
+      render();
+      return;
+    }
+    var send = e.target.closest("[data-send]");
+    if(send){ handleSend(send.dataset.send); return; }
+  });
+
+  function refreshFooter(){
+    document.getElementById("footer").innerHTML = renderFooter(STEPS[state.step]);
+  }
+
+  document.addEventListener("input", function(e){
+    var slider = e.target.closest("[data-slider]");
+    if(slider){
+      var k = slider.dataset.slider;
+      state[k] = Number(slider.value);
+      var out = document.getElementById("val-"+k);
+      if(out) out.textContent = state[k];
+      if(slider.dataset.pain==="1"){
+        var color = painColor(state[k], Number(slider.min), Number(slider.max));
+        slider.style.setProperty("--thumb-color", color);
+        if(out) out.style.color = color;
+      }
+      return;
+    }
+    var text = e.target.closest("[data-text]");
+    if(text){
+      state[text.dataset.text] = text.value;
+      refreshFooter();
+      return;
+    }
+  });
+
+  /* ---------------------------------------------------------
+     Boot (con soporte de hot-reload para el editor de artifacts)
+     --------------------------------------------------------- */
+  function start(saved){
+    if(saved && saved.state) state = saved.state;
+    render();
+  }
+  try{
+    if(window.claude && window.claude.hot){
+      window.claude.hot.snapshot(function(){ return { state: state }; });
+      window.claude.hot.ready ? window.claude.hot.ready(start) : start(window.claude.hot.data);
+    } else {
+      start();
+    }
+  } catch(err){ start(); }
+})();
+</script>
