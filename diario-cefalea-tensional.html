@@ -1,0 +1,1566 @@
+<!DOCTYPE html>
+<html lang="es">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>Diario semanal KINETIQ · Cefalea tensional</title>
+<style>
+  :root{
+    --ink:#3D4452;
+    --ink-soft:#6C7680;
+    --ink-faint:#9AA3AB;
+    --paper:#FAFAF8;
+    --surface:#FFFFFF;
+    --surface-sunken:#F1F3F1;
+    --border:#E1E5E2;
+    --accent:#4FD1A1;
+    --accent-deep:#279C77;
+    --accent-tint:#E4F9F1;
+    --on-accent:#123A2C;
+    --alert:#E1614A;
+    --alert-tint:#FBEAE6;
+    --focus:#2E6AE6;
+    --m-principal:#E1614A;
+    --m-irradia:#DD9A2E;
+    --m-hormigueo:#3E7FD8;
+    --shadow:0 1px 2px rgba(61,68,82,.06),0 6px 16px rgba(61,68,82,.08);
+    --surface-shade:#E1E6E2;
+    --body-line:#C9A98B;
+    --body-fill:#F0D2B4;
+    --body-fill-shade:#DEB68F;
+    color-scheme:light;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ink:#EDEFF0;
+      --ink-soft:#AEB6BC;
+      --ink-faint:#7C848B;
+      --paper:#1C2023;
+      --surface:#262B2F;
+      --surface-sunken:#202427;
+      --border:#3A4045;
+      --accent:#4FD1A1;
+      --accent-deep:#7FE6C0;
+      --accent-tint:#1E3A32;
+      --on-accent:#0D241C;
+      --alert:#F0846F;
+      --alert-tint:#3A2420;
+      --focus:#6E9BFF;
+      --m-principal:#F0846F;
+      --m-irradia:#EAB35C;
+      --m-hormigueo:#6FA3EE;
+      --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.35);
+      --surface-shade:#171B1D;
+      --body-line:#8A6B4C;
+      --body-fill:#7A5B3E;
+      --body-fill-shade:#5E4530;
+      color-scheme:dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ink:#EDEFF0;
+    --ink-soft:#AEB6BC;
+    --ink-faint:#7C848B;
+    --paper:#1C2023;
+    --surface:#262B2F;
+    --surface-sunken:#202427;
+    --border:#3A4045;
+    --accent:#4FD1A1;
+    --accent-deep:#7FE6C0;
+    --accent-tint:#1E3A32;
+    --on-accent:#0D241C;
+    --alert:#F0846F;
+    --alert-tint:#3A2420;
+    --focus:#6E9BFF;
+    --m-principal:#F0846F;
+    --m-irradia:#EAB35C;
+    --m-hormigueo:#6FA3EE;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.35);
+    --surface-shade:#171B1D;
+    --body-line:#8A6B4C;
+    --body-fill:#7A5B3E;
+    --body-fill-shade:#5E4530;
+    color-scheme:dark;
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Helvetica Neue",Helvetica,Arial,"Segoe UI",sans-serif;
+    -webkit-font-smoothing:antialiased;
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    overflow-x:hidden;
+  }
+  html{height:100%;}
+  h1,h2,h3,p{margin:0;}
+  button{font-family:inherit;}
+
+  /* ---------- top bar ---------- */
+  .topbar{
+    position:sticky;
+    top:env(safe-area-inset-top,0px);
+    z-index:10;
+    background:var(--paper);
+    padding:14px 20px 10px;
+    border-bottom:1px solid var(--border);
+  }
+  .brand-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:10px;
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-weight:700;
+    font-size:15px;
+    letter-spacing:.02em;
+    color:var(--ink);
+  }
+  .brand-dot{
+    width:9px;height:9px;border-radius:50%;
+    background:var(--accent);
+    flex:none;
+  }
+  .step-count{
+    font-size:12px;
+    color:var(--ink-faint);
+    font-variant-numeric:tabular-nums;
+  }
+  .progress-track{
+    height:5px;
+    border-radius:3px;
+    background:var(--surface-sunken);
+    overflow:hidden;
+  }
+  .progress-fill{
+    height:100%;
+    background:var(--accent);
+    border-radius:3px;
+    transition:width .25s ease;
+  }
+  .section-label{
+    margin-top:8px;
+    font-size:12.5px;
+    color:var(--ink-soft);
+    font-weight:600;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+  }
+
+  /* ---------- main ---------- */
+  main{
+    flex:1;
+    overflow-y:auto;
+    padding:20px 20px 28px;
+  }
+  .panel{
+    max-width:480px;
+    margin:0 auto;
+    display:flex;
+    flex-direction:column;
+    gap:22px;
+  }
+  .q-title{
+    font-size:20px;
+    line-height:1.3;
+    font-weight:700;
+    color:var(--ink);
+    text-wrap:balance;
+  }
+  .q-help{
+    font-size:13.5px;
+    color:var(--ink-soft);
+    line-height:1.5;
+    margin-top:4px;
+  }
+  .field{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+  .field-label{
+    font-size:13px;
+    font-weight:600;
+    color:var(--ink-soft);
+  }
+  .field-label .optional{
+    font-weight:400;
+    color:var(--ink-faint);
+  }
+
+  input[type="text"], textarea{
+    width:100%;
+    border:1px solid var(--border);
+    background:var(--surface);
+    color:var(--ink);
+    border-radius:12px;
+    padding:12px 14px;
+    font-size:15px;
+    font-family:inherit;
+    resize:vertical;
+  }
+  input[type="text"]:focus, textarea:focus{
+    outline:2px solid var(--focus);
+    outline-offset:1px;
+  }
+  textarea{min-height:76px;}
+
+  /* ---------- chips ---------- */
+  .chip-group{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .chip{
+    border:1px solid var(--border);
+    background:var(--surface);
+    color:var(--ink);
+    border-radius:999px;
+    padding:11px 16px;
+    font-size:14.5px;
+    line-height:1.2;
+    min-height:44px;
+    display:inline-flex;
+    align-items:center;
+    cursor:pointer;
+    transition:background .12s ease, border-color .12s ease, color .12s ease;
+  }
+  .chip:active{transform:scale(.98);}
+  .chip[aria-pressed="true"]{
+    background:var(--accent-tint);
+    border-color:var(--accent);
+    color:var(--accent-deep);
+    font-weight:600;
+  }
+  .chip:focus-visible{outline:2px solid var(--focus); outline-offset:2px;}
+
+  /* ---------- yes/no segmented ---------- */
+  .yn-row{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:14px;
+    padding:14px 0;
+    border-bottom:1px solid var(--border);
+  }
+  .yn-row:last-child{border-bottom:none;}
+  .yn-text{
+    font-size:14.5px;
+    line-height:1.45;
+    color:var(--ink);
+    flex:1;
+  }
+  .yn-seg{
+    display:flex;
+    border:1px solid var(--border);
+    border-radius:10px;
+    overflow:hidden;
+    flex:none;
+  }
+  .yn-btn{
+    border:none;
+    background:var(--surface);
+    color:var(--ink-soft);
+    font-size:13.5px;
+    font-weight:600;
+    padding:10px 16px;
+    min-height:44px;
+    cursor:pointer;
+  }
+  .yn-btn + .yn-btn{border-left:1px solid var(--border);}
+  .yn-btn[aria-pressed="true"].yn-yes{background:var(--alert-tint); color:var(--alert);}
+  .yn-btn[aria-pressed="true"].yn-no{background:var(--accent-tint); color:var(--accent-deep);}
+  .antecedente-detail{margin:-6px 0 12px;}
+
+  /* ---------- sliders ---------- */
+  .slider-block{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+  .slider-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+  }
+  .slider-title{font-size:14.5px; font-weight:600; color:var(--ink);}
+  .slider-value{
+    font-size:18px;
+    font-weight:700;
+    color:var(--accent-deep);
+    font-variant-numeric:tabular-nums;
+  }
+  input[type="range"]{
+    -webkit-appearance:none;
+    width:100%;
+    height:6px;
+    border-radius:3px;
+    background:var(--surface-sunken);
+    margin:6px 0;
+  }
+  input[type="range"]::-webkit-slider-thumb{
+    -webkit-appearance:none;
+    width:26px;height:26px;
+    border-radius:50%;
+    background:var(--accent);
+    border:3px solid var(--surface);
+    box-shadow:var(--shadow);
+    cursor:pointer;
+  }
+  input[type="range"]::-moz-range-thumb{
+    width:26px;height:26px;
+    border-radius:50%;
+    background:var(--accent);
+    border:3px solid var(--surface);
+    box-shadow:var(--shadow);
+    cursor:pointer;
+  }
+  .slider-scale{
+    display:flex;
+    justify-content:space-between;
+    font-size:11.5px;
+    color:var(--ink-faint);
+  }
+  .slider-help{
+    font-size:12.5px;
+    color:var(--ink-soft);
+    line-height:1.45;
+    margin-top:-2px;
+  }
+  .slider-block.pain-scale input[type="range"]{
+    background:linear-gradient(to right, #22B8A0 0%, #6FCB9F 22%, #EAB93E 52%, #E68A3C 76%, #E1614A 100%);
+  }
+  .slider-block.pain-scale input[type="range"]::-webkit-slider-thumb{
+    background:var(--thumb-color, var(--accent));
+  }
+  .slider-block.pain-scale input[type="range"]::-moz-range-thumb{
+    background:var(--thumb-color, var(--accent));
+  }
+  .slider-block.pain-scale .slider-value{
+    transition:color .15s ease;
+  }
+
+  /* ---------- body chart ---------- */
+  .marktype-row{display:flex; flex-direction:column; gap:8px;}
+  .brush-row{display:flex; flex-direction:column; gap:8px;}
+  .brush-seg{display:flex; gap:8px;}
+  .brush-btn{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+    border:1.5px solid var(--border);
+    background:var(--surface);
+    border-radius:12px;
+    padding:10px 8px;
+    min-height:58px;
+    cursor:pointer;
+  }
+  .brush-btn[aria-pressed="true"]{border-color:var(--ink); background:var(--surface-sunken);}
+  .brush-dot{border-radius:50%; flex:none;}
+  .brush-label{font-size:12.5px; font-weight:600; color:var(--ink-soft);}
+  .brush-btn[aria-pressed="true"] .brush-label{color:var(--ink);}
+  .marktype-chip{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    border:1.5px solid var(--border);
+    background:var(--surface);
+    border-radius:12px;
+    padding:11px 14px;
+    cursor:pointer;
+    text-align:left;
+    width:100%;
+  }
+  .marktype-chip[aria-pressed="true"]{border-color:var(--dot-color, var(--ink)); background:var(--surface-sunken);}
+  .marktype-swatch{width:15px;height:15px;border-radius:5px;flex:none;margin-top:3px;}
+  .marktype-text{display:flex; flex-direction:column; gap:2px;}
+  .marktype-chip .marktype-label{font-size:14.5px; font-weight:700; color:var(--ink);}
+  .marktype-chip .marktype-desc{font-size:12.5px; font-weight:400; color:var(--ink-soft); line-height:1.4;}
+
+  .view-caption{
+    font-size:13px;
+    color:var(--ink-soft);
+    text-align:center;
+    margin-top:-6px;
+  }
+  .view-caption b{color:var(--ink); font-weight:700;}
+
+  .view-tabs{
+    display:flex;
+    background:var(--surface-sunken);
+    border-radius:10px;
+    padding:3px;
+    gap:3px;
+  }
+  .view-tab{
+    flex:1;
+    border:none;
+    background:transparent;
+    color:var(--ink-soft);
+    font-size:13.5px;
+    font-weight:600;
+    padding:9px 0;
+    border-radius:8px;
+    cursor:pointer;
+    min-height:40px;
+  }
+  .view-tab[aria-pressed="true"]{background:var(--surface); color:var(--ink); box-shadow:var(--shadow);}
+
+  .body-svg-wrap{
+    position:relative;
+    display:flex;
+    justify-content:center;
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:14px 16px;
+    -webkit-user-select:none;
+    user-select:none;
+  }
+  /* La imagen/lienzo se mantiene más estrecha que la tarjeta a propósito:
+     el margen lateral que queda libre no tiene el canvas encima, así que
+     se puede deslizar el dedo por ahí para hacer scroll sin dibujar. */
+  .body-stage{ position:relative; width:min(300px, calc(100% - 64px)); }
+  .body-stage svg{ display:block; width:100%; height:auto; overflow:visible; }
+  .body-stage canvas{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    touch-action:none;
+    cursor:crosshair;
+  }
+  .body-photo{ pointer-events:none; }
+  .draw-tools{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+  }
+  .draw-tool-btn{
+    border:1px solid var(--border);
+    background:var(--surface);
+    color:var(--ink-soft);
+    border-radius:10px;
+    padding:9px 14px;
+    font-size:13px;
+    font-weight:600;
+    min-height:40px;
+    cursor:pointer;
+  }
+  .draw-tool-btn:active{ background:var(--surface-sunken); }
+  .marks-summary{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .mark-chip{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    border-radius:999px;
+    padding:7px 8px 7px 12px;
+    font-size:12.5px;
+    font-weight:600;
+    border:1px solid transparent;
+  }
+  .mark-chip button{
+    border:none;
+    background:rgba(0,0,0,.12);
+    color:inherit;
+    width:18px;height:18px;
+    border-radius:50%;
+    font-size:12px;
+    line-height:1;
+    cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .empty-hint{
+    font-size:13px;
+    color:var(--ink-faint);
+    font-style:italic;
+  }
+
+  /* ---------- footer nav ---------- */
+  footer{
+    position:sticky;
+    bottom:0;
+    padding:12px 20px calc(14px + env(safe-area-inset-bottom,0px));
+    background:var(--paper);
+    border-top:1px solid var(--border);
+    display:flex;
+    gap:10px;
+    z-index:10;
+  }
+  .btn{
+    border:none;
+    border-radius:12px;
+    font-size:15.5px;
+    font-weight:700;
+    padding:14px 18px;
+    min-height:50px;
+    cursor:pointer;
+    flex:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+  }
+  .btn-primary{background:var(--accent-deep); color:#fff;}
+  .btn-primary:disabled{background:var(--surface-sunken); color:var(--ink-faint); cursor:not-allowed;}
+  .btn:disabled{opacity:.45; cursor:not-allowed;}
+  .btn-ghost{background:var(--surface); color:var(--ink); border:1px solid var(--border); flex:0 0 92px;}
+  .btn-whatsapp{background:#22A85C; color:#fff;}
+  .btn-email{background:var(--surface); color:var(--ink); border:1.5px solid var(--ink);}
+  .validation-hint{
+    font-size:12.5px;
+    color:var(--alert);
+    text-align:center;
+    margin-top:-8px;
+  }
+
+  /* ---------- summary (resumen) ---------- */
+  .summary-card{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:16px;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+  .summary-card h3{
+    font-size:12.5px;
+    text-transform:uppercase;
+    letter-spacing:.05em;
+    color:var(--accent-deep);
+    font-weight:700;
+  }
+  .summary-row{
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+    font-size:13.5px;
+    line-height:1.5;
+  }
+  .summary-row dt{color:var(--ink-soft); flex:0 0 auto; max-width:46%;}
+  .summary-row dd{color:var(--ink); text-align:right; margin:0;}
+  .flag-warn{
+    display:flex;
+    gap:8px;
+    align-items:flex-start;
+    background:var(--alert-tint);
+    color:var(--alert);
+    border-radius:10px;
+    padding:10px 12px;
+    font-size:13px;
+    font-weight:600;
+    line-height:1.4;
+  }
+  .sent-note{
+    font-size:12.5px;
+    color:var(--ink-faint);
+    text-align:center;
+    line-height:1.5;
+  }
+  .welcome-hero{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+  }
+  .welcome-hero .kicker{
+    font-size:12.5px;
+    font-weight:700;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    color:var(--accent-deep);
+  }
+</style>
+<style>
+  input[type="date"]{width:100%;border:1px solid var(--border);background:var(--surface);color:var(--ink);border-radius:12px;padding:12px 14px;font-size:15px;font-family:inherit;}
+  input[type="date"]:focus{outline:2px solid var(--focus);outline-offset:1px;}
+  .zone{cursor:pointer;fill:transparent;stroke:var(--ink-faint);stroke-width:1.2;stroke-dasharray:3 3;transition:fill-opacity .12s ease;}
+  .zone.on{stroke-dasharray:none;fill-opacity:.6;stroke-width:1.6;}
+  .zone:focus-visible{outline:none;stroke:var(--focus);stroke-width:2.5;}
+  .side-tag{font-size:11px;fill:var(--ink-faint);font-weight:700;}
+  .trend-row{display:flex;align-items:center;gap:10px;font-size:12.5px;color:var(--ink-soft);padding:4px 0;}
+  .trend-row .t-label{flex:0 0 74px;font-variant-numeric:tabular-nums;}
+  .trend-row .t-track{flex:1;height:10px;border-radius:5px;background:var(--surface-sunken);overflow:hidden;}
+  .trend-row .t-bar{height:100%;border-radius:5px;background:var(--ink-faint);}
+  .trend-row.current .t-bar{background:var(--accent-deep);}
+  .trend-row .t-val{flex:0 0 92px;text-align:right;color:var(--ink);font-variant-numeric:tabular-nums;}
+  .btn-copy{background:var(--surface);color:var(--ink);border:1px solid var(--border);}
+  .send-col{display:flex;flex-direction:column;gap:10px;}
+  .info-note{font-size:12.5px;color:var(--ink-soft);background:var(--surface-sunken);border-radius:10px;padding:10px 12px;line-height:1.5;}
+  .session-badge{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--accent-deep);}
+</style>
+
+<div class="topbar">
+  <div class="brand-row">
+    <div class="brand"><span class="brand-dot"></span>KINETIQ · Diario semanal</div>
+    <div class="step-count" id="stepCount"></div>
+  </div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="section-label" id="sectionLabel"></div>
+</div>
+
+<main><div class="panel" id="panel"></div></main>
+
+<footer id="footer"></footer>
+
+<script>
+(function(){
+  "use strict";
+
+  /* =========================================================
+     CONFIGURACIÓN (mismos valores que la preconsulta)
+     ========================================================= */
+  var CENTROS = [
+    { key:"granvia", label:"Gran Vía", whatsapp:"34643721677" },
+    { key:"canovas", label:"Cánovas", whatsapp:"34614745155" }
+  ];
+  var CONFIG = { email: "kinetiq.esp@gmail.com" };
+  var STORE_KEY = "kinetiq_diario_cefalea_v2";
+  var DRAFT_KEY = "kinetiq_diario_cefalea_borrador_v2";
+
+  /* ---------------------------------------------------------
+     Utilidades de fecha
+     --------------------------------------------------------- */
+  function pad(n){ return (n<10?"0":"")+n; }
+  function isoDate(d){ return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate()); }
+  function mondayOf(d){
+    var x = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+    var dow = (x.getDay()+6)%7; // lunes = 0
+    x.setDate(x.getDate()-dow);
+    return x;
+  }
+  function parseISO(s){ var p=s.split("-"); return new Date(+p[0], +p[1]-1, +p[2]); }
+  var MESES = ["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
+  function shortDate(d){ return d.getDate()+" "+MESES[d.getMonth()]; }
+  function weekRangeLabel(iso){
+    var a = mondayOf(parseISO(iso)); var b = new Date(a.getFullYear(), a.getMonth(), a.getDate()+6);
+    return shortDate(a)+" – "+shortDate(b);
+  }
+
+  /* ---------------------------------------------------------
+     Estado
+     --------------------------------------------------------- */
+  function newSession(){
+    return { hecha:"", motivoNo:"", dia:"", tipo:"", duracion:"", rpe:5, momento:"", dolor:2, satisf:7, gestos:[], nota:"" };
+  }
+  function freshState(keep){
+    keep = keep || {};
+    return {
+      step: 0,
+      nombre: keep.nombre || "",
+      centro: keep.centro || "",
+      semana: isoDate(mondayOf(new Date())),
+      diasCefalea: "", evaMedia: 3, evaMax: 5, duracion: "", descriptores: [],
+      bodyView: "anterior", markerActive: "principal", body: { anterior:{}, posterior:{} },
+      acompanantes: [], desencadenantes: [], mejora: [],
+      limitDias: "", interferencia: 3, actividad: "", dificultad: 6,
+      medDias: "", medDetalle: "", medAlivio: "",
+      sueno: 3, estres: 3, fabq: 2,
+      sesiones: { ent1:newSession(), ent2:newSession(), padel:newSession() },
+      flags: { subita:null, distinta:null, fiebre:null, neuro:null, nocturno:null, golpe:null, esfuerzo:null },
+      pgic: "", notas: "", completado: false
+    };
+  }
+  var state = freshState();
+
+  function getPath(o, path){ return path.split(".").reduce(function(a,k){ return a==null?undefined:a[k]; }, o); }
+  function setPath(o, path, v){
+    var ks = path.split("."); var last = ks.pop();
+    var t = ks.reduce(function(a,k){ return a[k]; }, o);
+    t[last] = v;
+  }
+  function num(x){ return (x===""||x==null)?null:Number(x); }
+
+  /* ---------------------------------------------------------
+     Datos de referencia
+     --------------------------------------------------------- */
+  var DIAS_OPC = ["0","1","2","3","4","5","6","7"];
+  var DURACION_OPC = ["Menos de 1 hora","Entre 1 y 4 horas","Entre 4 y 8 horas","Casi todo el día"];
+  var DESCRIPTOR_OPC = ["Presión u opresión","Sensación de banda alrededor de la cabeza","Pesadez","Sorda y constante","Punzante","Latido o pulsátil"];
+  var ACOMP_OPC = ["Tensión en el cuello u hombros","Tensión en la mandíbula","Sensibilidad a la luz","Sensibilidad al ruido","Náuseas","Cansancio","Ninguno en especial"];
+  var DESENC_OPC = ["Estrés o preocupaciones","Muchas horas de pantalla","Postura mantenida","Mala noche de sueño","Saltarme comidas","Poca hidratación","Cafeína","Ejercicio intenso","Cambios del ciclo menstrual","Ninguno claro"];
+  var MEJORA_OPC = ["Descanso o quietud","Calor local","Estiramientos suaves","Movimiento suave o caminar","Masaje o automasaje","Medicación","Nada la alivia claramente"];
+  var ALIVIO_OPC = ["Ninguno","Parcial","Bueno"];
+
+  var MARK_TYPES = [
+    { key:"principal", label:"Molestia principal", short:"principal", desc:"Donde la notas con más claridad.", color:"var(--m-principal)" },
+    { key:"irradia",   label:"Se extiende hacia otra zona", short:"se extiende", desc:"La notas desplazarse o repartirse.", color:"var(--m-irradia)" },
+    { key:"hormigueo", label:"Hormigueo o adormecimiento", short:"hormigueo", desc:"Sensación distinta al dolor.", color:"var(--m-hormigueo)" }
+  ];
+  var ZONES = {
+    anterior: [
+      { id:"frente",   label:"Frente",               cx:100, cy:46,  rx:40, ry:15 },
+      { id:"sien_d",   label:"Sien derecha",         cx:56,  cy:78,  rx:12, ry:19 },
+      { id:"sien_i",   label:"Sien izquierda",       cx:144, cy:78,  rx:12, ry:19 },
+      { id:"orbita",   label:"Zona de los ojos",     cx:100, cy:80,  rx:30, ry:11 },
+      { id:"mand_d",   label:"Mandíbula derecha",    cx:68,  cy:124, rx:15, ry:12 },
+      { id:"mand_i",   label:"Mandíbula izquierda",  cx:132, cy:124, rx:15, ry:12 }
+    ],
+    posterior: [
+      { id:"coronilla",label:"Coronilla",            cx:100, cy:36,  rx:36, ry:14 },
+      { id:"occ_i",    label:"Parte trasera izquierda de la cabeza", cx:70,  cy:84, rx:17, ry:22 },
+      { id:"occ_d",    label:"Parte trasera derecha de la cabeza",   cx:130, cy:84, rx:17, ry:22 },
+      { id:"cerv_alta",label:"Base del cráneo y cuello alto", cx:100, cy:138, rx:27, ry:11 },
+      { id:"cerv_baja",label:"Cuello bajo",          cx:100, cy:166, rx:24, ry:12 },
+      { id:"trap_i",   label:"Hombro-cuello izquierdo", cx:58, cy:192, rx:30, ry:14 },
+      { id:"trap_d",   label:"Hombro-cuello derecho",   cx:142,cy:192, rx:30, ry:14 }
+    ]
+  };
+
+  var FLAGS = [
+    { key:"subita",   text:"¿Ha aparecido algún dolor de cabeza de inicio muy brusco, que alcanza su máxima intensidad en pocos minutos?" },
+    { key:"distinta", text:"¿Notas que el dolor de cabeza de esta semana es claramente distinto al habitual (otra zona, otro tipo o mucha más intensidad)?" },
+    { key:"fiebre",   text:"¿Has tenido fiebre o una rigidez marcada en el cuello junto con el dolor de cabeza?" },
+    { key:"neuro",    text:"¿Has notado cambios en la visión o el habla, pérdida de fuerza, hormigueo en la cara o en un brazo, o confusión?" },
+    { key:"nocturno", text:"¿Te despierta por la noche, o va aumentando semana a semana de forma progresiva?" },
+    { key:"golpe",    text:"¿Ha habido algún golpe en la cabeza o el cuello en los últimos días?" },
+    { key:"esfuerzo", text:"¿Aparece justo al toser, estornudar o hacer un esfuerzo intenso (levantar peso, aguantar la respiración)?" }
+  ];
+
+  var PGIC_OPC = ["Mucho mejor","Moderadamente mejor","Un poco mejor","Sin cambios","Un poco peor","Moderadamente peor","Mucho peor"];
+
+  var SESSION_META = {
+    ent1:  { title:"Entrenamiento 1 de la semana", label:"Entrenamiento 1", kind:"entreno" },
+    ent2:  { title:"Entrenamiento 2 de la semana", label:"Entrenamiento 2", kind:"entreno" },
+    padel: { title:"Tu día de pádel",              label:"Pádel",           kind:"padel" }
+  };
+  var DIAS_SEM = ["Lun","Mar","Mié","Jue","Vie","Sáb","Dom"];
+  var HECHA_OPC = ["Sí, completo","Sí, parcial","No lo hice"];
+  var MOTIVO_NO_OPC = ["Falta de tiempo","Prefería no forzar por la molestia","Cansancio o poco descanso","Imprevisto o agenda","Otro motivo"];
+  var TIPO_ENT_OPC = ["Fuerza","Cardio o resistencia","Movilidad o ejercicio pautado","Mixto"];
+  var TIPO_PADEL_OPC = ["Partido amistoso","Clase o entrenamiento","Partido competitivo"];
+  var DUR_ENT_OPC = ["Menos de 30 min","30–45 min","45–60 min","Más de 60 min"];
+  var DUR_PADEL_OPC = ["Menos de 45 min","45–90 min","Más de 90 min"];
+  var MOMENTO_OPC = ["No apareció","Durante la sesión","En las 2 horas siguientes","Más tarde ese día o al día siguiente"];
+  var GESTOS_OPC = ["Remates o bandejas","Mirar hacia arriba","Giros rápidos de cuello o tronco","Tensión de hombros en los golpes","Ninguno en especial"];
+
+  /* ---------------------------------------------------------
+     Color del slider de dolor (igual que la preconsulta)
+     --------------------------------------------------------- */
+  var PAIN_COLOR_STOPS = ["#22B8A0", "#6FCB9F", "#EAB93E", "#E68A3C", "#E1614A"];
+  function lerpColor(a, b, t){
+    var ah = parseInt(a.slice(1), 16), bh = parseInt(b.slice(1), 16);
+    var ar=(ah>>16)&255, ag=(ah>>8)&255, ab=ah&255;
+    var br=(bh>>16)&255, bg=(bh>>8)&255, bb=bh&255;
+    var rr=Math.round(ar+(br-ar)*t), rg=Math.round(ag+(bg-ag)*t), rb=Math.round(ab+(bb-ab)*t);
+    return "#"+("000000"+((rr<<16)|(rg<<8)|rb).toString(16)).slice(-6);
+  }
+  function painColor(value, min, max){
+    var t = max>min ? (value-min)/(max-min) : 0;
+    t = Math.max(0, Math.min(1, t));
+    var segs = PAIN_COLOR_STOPS.length - 1;
+    var pos = t*segs; var i = Math.min(segs-1, Math.floor(pos));
+    return lerpColor(PAIN_COLOR_STOPS[i], PAIN_COLOR_STOPS[i+1], pos-i);
+  }
+
+  function esc(str){
+    return String(str==null?"":str).replace(/[&<>"']/g, function(c){
+      return ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[c];
+    });
+  }
+
+  /* ---------------------------------------------------------
+     Componentes
+     --------------------------------------------------------- */
+  function chipGroup(options, path, multi){
+    var sel = getPath(state, path);
+    var html = '<div class="chip-group">';
+    options.forEach(function(opt){
+      var isSel = multi ? sel.indexOf(opt)>-1 : sel===opt;
+      html += '<button type="button" class="chip" data-chip data-key="'+path+'" data-multi="'+(multi?"1":"0")+'" data-value="'+esc(opt)+'" aria-pressed="'+isSel+'">'+esc(opt)+'</button>';
+    });
+    return html + '</div>';
+  }
+  function slider(title, path, min, max, lowLabel, highLabel, opts){
+    opts = opts || {};
+    var value = getPath(state, path);
+    var isPain = !!opts.pain;
+    var color = isPain ? painColor(value, min, max) : null;
+    return ''+
+    '<div class="slider-block'+(isPain?" pain-scale":"")+'">'+
+      (opts.help ? '<p class="slider-help">'+opts.help+'</p>' : '')+
+      '<div class="slider-head"><span class="slider-title">'+title+'</span><span class="slider-value" id="val-'+path+'"'+(isPain?' style="color:'+color+';"':'')+'>'+value+'</span></div>'+
+      '<input type="range" min="'+min+'" max="'+max+'" step="1" value="'+value+'" data-slider="'+path+'"'+(isPain?' data-pain="1" data-min="'+min+'" data-max="'+max+'" style="--thumb-color:'+color+';"':'')+' aria-label="'+esc(title.replace(/<[^>]+>/g,""))+'">'+
+      '<div class="slider-scale"><span>'+lowLabel+'</span><span>'+highLabel+'</span></div>'+
+    '</div>';
+  }
+  function field(label, inner, optional){
+    return '<div class="field"><label class="field-label">'+label+(optional?' <span class="optional">(opcional)</span>':'')+'</label>'+inner+'</div>';
+  }
+  function textarea(path, placeholder){
+    return '<textarea data-text="'+path+'" placeholder="'+esc(placeholder)+'">'+esc(getPath(state,path))+'</textarea>';
+  }
+
+  /* ---------------------------------------------------------
+     Pasos
+     --------------------------------------------------------- */
+  function hasHeadache(){ var d=num(state.diasCefalea); return d!==null && d>0; }
+
+  function renderIntro(){
+    return ''+
+    '<div class="welcome-hero">'+
+      '<div class="kicker">Seguimiento de tu semana</div>'+
+      '<h1 class="q-title">¿Cómo ha ido esta semana?</h1>'+
+      '<p class="q-help">Un registro corto, una vez por semana, para ver cómo evolucionas junto al tratamiento y ajustar tu plan. Tardarás unos 4 minutos.</p>'+
+    '</div>'+
+    field("Nombre y apellidos",'<input type="text" data-text="nombre" value="'+esc(state.nombre)+'" placeholder="Tu nombre y apellidos" autocomplete="name">')+
+    field("Semana que registras (lunes de esa semana)",'<input type="date" data-date="semana" value="'+esc(state.semana)+'">')+
+    '<p class="q-help" style="margin-top:-12px;">Semana del <b>'+weekRangeLabel(state.semana)+'</b></p>'+
+    introHistory();
+  }
+  function introHistory(){
+    var hist = loadHistory(), n = Object.keys(hist).length;
+    if(!n) return '<p class="sent-note">Tus semanas se guardarán en este móvil para que puedas ver tu evolución.</p>';
+    return (hist[state.semana] ? '<div class="info-note">Ya registraste esta semana. Si la completas de nuevo, se actualizará.</div>' : '')+
+      '<button type="button" class="btn btn-copy" data-open-history>📈 Ver mi evolución ('+n+(n===1?" semana":" semanas")+')</button>';
+  }
+
+  function renderCefalea(){
+    var h = ''+
+    '<h1 class="q-title">Tu dolor de cabeza esta semana</h1>'+
+    field("¿Cuántos días has tenido molestia de cabeza?", chipGroup(DIAS_OPC,"diasCefalea",false)+'<p class="slider-help">0 = ninguno · 7 = todos los días de la semana.</p>');
+    if(hasHeadache()){
+      h += slider("Intensidad media cuando aparece","evaMedia",0,10,"Sin molestia","La peor imaginable",{ pain:true,
+        help:"0 = no notas nada · 3-4 = la notas pero no te limita · 5-6 = interfiere en algunas actividades · 7-8 = te cuesta concentrarte · 9-10 = la peor que puedas imaginar." });
+      h += slider("Intensidad máxima de la semana","evaMax",0,10,"Sin molestia","La peor imaginable",{ pain:true,
+        help:"Piensa en el peor momento de estos días y sitúalo en la misma escala." });
+      h += field("¿Cuánto suele durar cada episodio?", chipGroup(DURACION_OPC,"duracion",false));
+      h += field("¿Cómo la describirías? <span class=\"optional\">(elige las que encajen)</span>", chipGroup(DESCRIPTOR_OPC,"descriptores",true));
+    } else {
+      h += '<div class="info-note">¡Buena noticia! Sin molestia de cabeza esta semana, saltamos las preguntas sobre el dolor y pasamos a lo demás.</div>';
+    }
+    return h;
+  }
+
+  function figure(view){
+    var f = "";
+    if(view==="anterior"){
+      f += '<path d="M8 250 C8 208 44 192 82 184 L118 184 C156 192 192 208 192 250 Z" fill="var(--body-fill-shade)"/>';
+      f += '<rect x="82" y="136" width="36" height="52" rx="10" fill="var(--body-fill)"/>';
+      f += '<ellipse cx="48" cy="90" rx="6" ry="13" fill="var(--body-fill)" stroke="var(--body-line)" stroke-width="1.5"/><ellipse cx="152" cy="90" rx="6" ry="13" fill="var(--body-fill)" stroke="var(--body-line)" stroke-width="1.5"/>';
+      f += '<ellipse cx="100" cy="84" rx="52" ry="62" fill="var(--body-fill)" stroke="var(--body-line)" stroke-width="2"/>';
+      f += '<ellipse cx="82" cy="80" rx="5" ry="2.6" fill="var(--body-line)"/><ellipse cx="118" cy="80" rx="5" ry="2.6" fill="var(--body-line)"/>';
+      f += '<path d="M100 84 L96 104 L104 104" fill="none" stroke="var(--body-line)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>';
+      f += '<path d="M86 122 Q100 130 114 122" fill="none" stroke="var(--body-line)" stroke-width="1.8" stroke-linecap="round"/>';
+      f += '<text class="side-tag" x="8" y="16">D</text><text class="side-tag" x="186" y="16">I</text>';
+    } else {
+      f += '<path d="M8 250 C8 208 44 192 82 184 L118 184 C156 192 192 208 192 250 Z" fill="var(--body-fill-shade)"/>';
+      f += '<rect x="82" y="120" width="36" height="68" rx="10" fill="var(--body-fill)"/>';
+      f += '<ellipse cx="48" cy="90" rx="6" ry="13" fill="var(--body-fill)" stroke="var(--body-line)" stroke-width="1.5"/><ellipse cx="152" cy="90" rx="6" ry="13" fill="var(--body-fill)" stroke="var(--body-line)" stroke-width="1.5"/>';
+      f += '<ellipse cx="100" cy="84" rx="52" ry="62" fill="var(--body-fill)" stroke="var(--body-line)" stroke-width="2"/>';
+      f += '<text class="side-tag" x="8" y="16">I</text><text class="side-tag" x="186" y="16">D</text>';
+    }
+    return f;
+  }
+  function zoneColor(markKey){
+    var mt = MARK_TYPES.filter(function(m){ return m.key===markKey; })[0];
+    return mt ? mt.color : "transparent";
+  }
+  function renderBodyChart(){
+    var view = state.bodyView;
+    var zones = ZONES[view].map(function(z){
+      var mk = state.body[view][z.id];
+      return '<ellipse class="zone'+(mk?" on":"")+'" data-zone="'+z.id+'" tabindex="0" role="button" aria-label="'+esc(z.label)+(mk?" (marcada)":"")+'" cx="'+z.cx+'" cy="'+z.cy+'" rx="'+z.rx+'" ry="'+z.ry+'"'+(mk?' style="fill:'+zoneColor(mk)+';stroke:'+zoneColor(mk)+';"':'')+'><title>'+esc(z.label)+'</title></ellipse>';
+    }).join("");
+    var marks = [];
+    ["anterior","posterior"].forEach(function(v){
+      ZONES[v].forEach(function(z){
+        var mk = state.body[v][z.id];
+        if(mk){
+          var mt = MARK_TYPES.filter(function(m){return m.key===mk;})[0];
+          marks.push('<span class="mark-chip" style="background:var(--surface-sunken);color:var(--ink);border-color:'+mt.color+';">'+esc(z.label)+' · '+mt.short+'<button type="button" data-clear-zone="'+v+'|'+z.id+'" aria-label="Quitar '+esc(z.label)+'">×</button></span>');
+        }
+      });
+    });
+    return ''+
+    '<h1 class="q-title">¿Dónde la has notado esta semana?</h1>'+
+    '<p class="q-help">Elige el tipo de sensación y toca las zonas de la cabeza y el cuello donde la has notado. Toca otra vez para quitarla. Si no hay una zona clara, puedes dejarlo en blanco.</p>'+
+    '<div class="marktype-row">'+MARK_TYPES.map(function(m){
+      return '<button type="button" class="marktype-chip" data-marker="'+m.key+'" aria-pressed="'+(state.markerActive===m.key)+'" style="--dot-color:'+m.color+';">'+
+        '<span class="marktype-swatch" style="background:'+m.color+';"></span><span class="marktype-text"><span class="marktype-label">'+m.label+'</span><span class="marktype-desc">'+m.desc+'</span></span></button>';
+    }).join("")+'</div>'+
+    '<div class="view-tabs">'+
+      '<button type="button" class="view-tab" data-view="anterior" aria-pressed="'+(view==="anterior")+'">Vista frontal</button>'+
+      '<button type="button" class="view-tab" data-view="posterior" aria-pressed="'+(view==="posterior")+'">Vista posterior</button>'+
+    '</div>'+
+    '<div class="body-svg-wrap"><div class="body-stage"><svg viewBox="0 0 200 250" role="group" aria-label="Mapa de cabeza y cuello, vista '+(view==="anterior"?"frontal":"posterior")+'">'+figure(view)+zones+'</svg></div></div>'+
+    '<p class="view-caption">D = tu lado derecho · I = tu lado izquierdo</p>'+
+    (marks.length ? '<div class="marks-summary">'+marks.join("")+'</div>' : '<p class="empty-hint">Aún no has marcado ninguna zona.</p>');
+  }
+
+  function renderSintomas(){
+    return ''+
+    '<h1 class="q-title">Qué la acompaña y qué influye</h1>'+
+    field("¿La has notado junto con…? <span class=\"optional\">(elige las que encajen)</span>", chipGroup(ACOMP_OPC,"acompanantes",true))+
+    field("¿Qué crees que ha influido esta semana?", chipGroup(DESENC_OPC,"desencadenantes",true))+
+    field("¿Qué la ha aliviado? <span class=\"optional\">(opcional)</span>", chipGroup(MEJORA_OPC,"mejora",true));
+  }
+
+  function renderImpacto(){
+    return ''+
+    '<h1 class="q-title">Tu día a día</h1>'+
+    field("¿Cuántos días te ha limitado lo que querías hacer?", chipGroup(DIAS_OPC,"limitDias",false)+'<p class="slider-help">0 = ninguno · 7 = todos los días.</p>')+
+    slider("Cuánto ha interferido en tu semana","interferencia",0,10,"Nada","Muchísimo",{
+      help:"0 = nada · 3-4 = lo justo para notarlo · 5-6 = he tenido que adaptar algunas cosas · 7-8 = he dejado de hacer cosas que me importan · 9-10 = casi todo ha sido difícil."
+    })+
+    field("¿Qué 1 o 2 actividades te han costado más? <span class=\"optional\">(opcional)</span>", textarea("actividad","Ej. concentrarme frente al ordenador, entrenar, conducir, leer"))+
+    slider("Dificultad actual para hacerlas","dificultad",0,10,"No puedo hacerla","Igual que antes",{
+      help:"0 = no puedes hacerla · 3-4 = te cuesta bastante · 5-6 = la haces con cierta dificultad · 7-8 = casi con normalidad · 9-10 = igual que antes de esta molestia."
+    });
+  }
+
+  function renderMedicacion(){
+    var d = num(state.medDias);
+    return ''+
+    '<h1 class="q-title">Medicación de esta semana</h1>'+
+    field("¿Cuántos días has tomado algún analgésico o antiinflamatorio?", chipGroup(DIAS_OPC,"medDias",false)+'<p class="slider-help">0 = ninguno · incluye cualquier medicación para la molestia de cabeza o cuello.</p>')+
+    (d>0 ?
+      field("¿Qué has tomado, en qué dosis y cuándo? <span class=\"optional\">(lo que recuerdes)</span>", textarea("medDetalle","Ej. paracetamol 1 g, dos veces esta semana, por la tarde"))+
+      field("Alivio a las 2 horas de tomarla", chipGroup(ALIVIO_OPC,"medAlivio",false))
+      : '');
+  }
+
+  function renderSueno(){
+    return ''+
+    '<h1 class="q-title">Descanso, estrés y confianza al moverte</h1>'+
+    slider("Calidad del sueño esta semana","sueno",1,5,"Muy mala","Muy buena",{
+      help:"1 = casi no descansas · 2 = muchas interrupciones · 3 = aceptable · 4 = bien la mayoría de las noches · 5 = descanso completo y reparador."
+    })+
+    slider("Nivel de estrés percibido","estres",1,5,"Muy bajo","Muy alto",{
+      help:"1 = tranquilo/a · 2 = tensión leve y puntual · 3 = tensión moderada · 4 = bastante sobrepasado/a · 5 = tensión muy alta y constante."
+    })+
+    slider("\"Creo que debería evitar entrenar porque podría empeorar\"","fabq",0,6,"En desacuerdo","De acuerdo");
+  }
+
+  function renderSesion(k){
+    var s = state.sesiones[k], meta = SESSION_META[k], base = "sesiones."+k+".";
+    var h = ''+
+    '<div><span class="session-badge">Después de entrenar</span><h1 class="q-title">'+meta.title+'</h1>'+
+    '<p class="q-help">'+(meta.kind==="padel" ? "Cuéntanos cómo fue tu día de pádel y cómo respondió tu cabeza y tu cuello." : "Cuéntanos cómo fue la sesión y cómo respondió tu cabeza y tu cuello después.")+'</p></div>'+
+    field("¿Pudiste hacerlo?", chipGroup(HECHA_OPC, base+"hecha", false));
+    if(s.hecha==="No lo hice"){
+      h += field("¿Qué lo impidió?", chipGroup(MOTIVO_NO_OPC, base+"motivoNo", false));
+      return h;
+    }
+    if(s.hecha){
+      h += field("¿Qué día fue?", chipGroup(DIAS_SEM, base+"dia", false));
+      h += field(meta.kind==="padel" ? "¿Qué tipo de pádel fue?" : "¿Qué tipo de entrenamiento fue?", chipGroup(meta.kind==="padel"?TIPO_PADEL_OPC:TIPO_ENT_OPC, base+"tipo", false));
+      h += field("Duración aproximada", chipGroup(meta.kind==="padel"?DUR_PADEL_OPC:DUR_ENT_OPC, base+"duracion", false));
+      h += slider("Esfuerzo percibido durante la sesión", base+"rpe", 0, 10, "Muy suave", "Esfuerzo máximo", {
+        help:"0 = reposo · 3-4 = suave, podía hablar sin problema · 5-6 = moderado · 7-8 = intenso, hablar costaba · 9-10 = casi al límite."
+      });
+      h += slider("Dolor de cabeza o cuello después de la sesión", base+"dolor", 0, 10, "Sin molestia", "La peor imaginable", { pain:true,
+        help:"Valora la molestia de cabeza o cuello que has notado al terminar o esa misma tarde. 0 = nada."
+      });
+      h += field("¿Cuándo apareció la molestia?", chipGroup(MOMENTO_OPC, base+"momento", false));
+      if(meta.kind==="padel"){
+        h += field("¿Algún gesto te ha resultado más incómodo? <span class=\"optional\">(elige los que encajen)</span>", chipGroup(GESTOS_OPC, base+"gestos", true));
+      }
+      h += slider("Satisfacción con la sesión", base+"satisf", 0, 10, "Nada satisfecho/a", "Muy satisfecho/a", {
+        help:"¿Cómo te has sentido con la sesión: energía, confianza, ganas de repetir? 0 = nada satisfecho/a · 5 = normal · 10 = totalmente satisfecho/a."
+      });
+      h += field("¿Algo más que quieras contarnos de esta sesión?", textarea(base+"nota","Ej. el calentamiento me fue bien, noté tensión al final"), true);
+    }
+    return h;
+  }
+
+  function renderFlags(){
+    var rows = FLAGS.map(function(f){
+      var v = state.flags[f.key];
+      return '<div class="yn-row"><div class="yn-text">'+f.text+'</div>'+
+        '<div class="yn-seg">'+
+          '<button type="button" class="yn-btn yn-no" data-flag="'+f.key+'" data-value="no" aria-pressed="'+(v===false)+'">No</button>'+
+          '<button type="button" class="yn-btn yn-yes" data-flag="'+f.key+'" data-value="si" aria-pressed="'+(v===true)+'">Sí</button>'+
+        '</div></div>';
+    }).join("");
+    return ''+
+    '<h1 class="q-title">Unas preguntas de seguridad</h1>'+
+    '<p class="q-help">Preguntas breves de rutina para asegurarnos de que tu seguimiento sigue por buen camino. Un «Sí» no es una mala señal por sí mismo: nos permite revisarlo contigo con calma.</p>'+
+    '<div>'+rows+'</div>';
+  }
+
+  function renderPgic(){
+    return ''+
+    '<h1 class="q-title">¿Cómo te sientes con tu evolución?</h1>'+
+    field("Comparado con el inicio del tratamiento, tu molestia de cabeza ahora está…", chipGroup(PGIC_OPC,"pgic",false))+
+    field("¿Algo que quieras comentar en tu próxima sesión?", textarea("notas","Ej. dudas sobre los ejercicios, cambios en el trabajo, algo que te preocupe"), true);
+  }
+
+  /* ---------------------------------------------------------
+     Historial local y métricas
+     --------------------------------------------------------- */
+  function loadStore(){
+    try{
+      var raw = localStorage.getItem(STORE_KEY); var o = raw ? JSON.parse(raw) : null;
+      if(o && o.semanas) return o;
+    }catch(e){}
+    return { perfil:{}, semanas:{} };
+  }
+  function saveStore(o){ try{ localStorage.setItem(STORE_KEY, JSON.stringify(o)); return true; }catch(e){ return false; } }
+  function loadHistory(){ return loadStore().semanas; }
+  function saveDraft(){ try{ localStorage.setItem(DRAFT_KEY, JSON.stringify(state)); }catch(e){} }
+  function clearDraft(){ try{ localStorage.removeItem(DRAFT_KEY); }catch(e){} }
+  function loadDraft(){ try{ var raw=localStorage.getItem(DRAFT_KEY); return raw?JSON.parse(raw):null; }catch(e){ return null; } }
+
+  function sesMetric(k){
+    var s = state.sesiones[k];
+    if(s.hecha==="Sí, completo"||s.hecha==="Sí, parcial") return { dolor:s.dolor, satisf:s.satisf, rpe:s.rpe, parcial:s.hecha==="Sí, parcial" };
+    return null;
+  }
+  function computeMetrics(){
+    var dias = num(state.diasCefalea);
+    var done = ["ent1","ent2","padel"].map(function(k){ return state.sesiones[k]; }).filter(function(s){ return s.hecha==="Sí, completo"||s.hecha==="Sí, parcial"; });
+    var maxPost = done.length ? Math.max.apply(null, done.map(function(s){ return s.dolor; })) : null;
+    var avgSat = done.length ? Math.round(done.reduce(function(a,s){ return a+s.satisf; },0)/done.length*10)/10 : null;
+    return {
+      dias: dias, evaMedia: dias>0 ? state.evaMedia : 0, evaMax: dias>0 ? state.evaMax : 0,
+      medDias: num(state.medDias), sueno: state.sueno, estres: state.estres,
+      sesionesHechas: done.length, maxPost: maxPost, avgSat: avgSat,
+      interferencia: dias>0 ? state.interferencia : 0, pgic: state.pgic,
+      ses: { ent1: sesMetric("ent1"), ent2: sesMetric("ent2"), padel: sesMetric("padel") }
+    };
+  }
+  function previousWeek(history){
+    var keys = Object.keys(history).filter(function(k){ return k < state.semana; }).sort();
+    return keys.length ? { key: keys[keys.length-1], m: history[keys[keys.length-1]] } : null;
+  }
+  function persistCurrent(){
+    var store = loadStore();
+    var entry = computeMetrics();
+    var snap = JSON.parse(JSON.stringify(state)); delete snap.step;
+    entry.respuestas = snap;
+    entry.guardado = new Date().toISOString();
+    store.semanas[state.semana] = entry;
+    store.perfil = { nombre: state.nombre, centro: state.centro };
+    saveStore(store);
+    return store.semanas;
+  }
+
+  function anyFlag(){ return FLAGS.some(function(f){ return state.flags[f.key]===true; }); }
+
+  function renderTrend(history){
+    var keys = Object.keys(history).sort().slice(-6);
+    if(keys.length<2) return '<p class="empty-hint">Cuando completes más semanas, aquí verás tu evolución.</p>';
+    return keys.map(function(k){
+      var m = history[k];
+      var cur = k===state.semana;
+      return '<div class="trend-row'+(cur?" current":"")+'"><span class="t-label">'+shortDate(parseISO(k))+'</span>'+
+        '<span class="t-track"><span class="t-bar" style="display:block;width:'+Math.round((m.dias/7)*100)+'%;"></span></span>'+
+        '<span class="t-val">'+m.dias+' d · int. '+m.evaMedia+'</span></div>';
+    }).join("")+'<p class="slider-help" style="margin-top:6px;">Días con molestia de cabeza por semana (barra) e intensidad media (int.).</p>';
+  }
+
+  function summaryCard(title, rows){
+    return '<div class="summary-card"><h3>'+title+'</h3><dl style="margin:0;display:flex;flex-direction:column;gap:6px;">'+
+      rows.map(function(r){ return '<div class="summary-row"><dt>'+r[0]+'</dt><dd>'+r[1]+'</dd></div>'; }).join("")+'</dl></div>';
+  }
+
+  function sessionLine(k){
+    var s = state.sesiones[k];
+    if(!s.hecha) return "Sin responder";
+    if(s.hecha==="No lo hice") return "No realizado"+(s.motivoNo?" ("+esc(s.motivoNo)+")":"");
+    return (s.dia?esc(s.dia)+" · ":"")+"dolor "+s.dolor+"/10 · satisf. "+s.satisf+"/10";
+  }
+
+  function renderResumen(){
+    state.completado = true;
+    var history = persistCurrent();
+    var m = computeMetrics();
+    var prev = previousWeek(history);
+    var rows1 = [
+      ["Días con molestia", m.dias===null?"—":m.dias+" de 7"],
+      ["Intensidad media / máxima", m.dias>0 ? m.evaMedia+" / "+m.evaMax : "—"],
+      ["Días con analgésico", m.medDias===null?"—":m.medDias]
+    ];
+    if(prev) rows1.push(["Semana anterior", prev.m.dias+" días · int. "+prev.m.evaMedia]);
+    var h = ''+
+    '<div class="welcome-hero"><div class="kicker">Semana del '+weekRangeLabel(state.semana)+'</div><h1 class="q-title">Resumen de tu semana</h1>'+
+    '<p class="q-help">Revisa los datos y envíanoslos para tu próxima sesión.</p></div>';
+    if(anyFlag()){
+      h += '<div class="flag-warn"><span>⚠️</span><span>Has marcado algún punto de seguridad. Envíanos este registro hoy mismo y te contactaremos para revisarlo. Si aparece de golpe y muy intenso, o con pérdida de fuerza, habla o visión, llama al 112.</span></div>';
+    }
+    h += summaryCard("Dolor de cabeza", rows1);
+    h += summaryCard("Entrenamientos", [
+      [SESSION_META.ent1.label, sessionLine("ent1")],
+      [SESSION_META.ent2.label, sessionLine("ent2")],
+      [SESSION_META.padel.label, sessionLine("padel")]
+    ]);
+    h += summaryCard("Descanso y estrés", [["Sueño", state.sueno+"/5"],["Estrés", state.estres+"/5"],["Evolución percibida", esc(state.pgic||"—")]]);
+    h += '<div class="summary-card"><h3>Tu evolución</h3>'+renderTrend(history)+'</div>';
+    h += '<button type="button" class="btn btn-copy" data-open-history>📈 Ver mi evolución completa</button>';
+    h += field("¿A qué centro lo enviamos?", '<div class="chip-group">'+CENTROS.map(function(c){
+      return '<button type="button" class="chip" data-centro="'+c.key+'" aria-pressed="'+(state.centro===c.key)+'">'+c.label+'</button>';
+    }).join("")+'</div>');
+    h += '<div class="send-col">'+
+      '<button type="button" class="btn btn-whatsapp" data-send="whatsapp"'+(state.centro?"":" disabled")+'>Enviar por WhatsApp</button>'+
+      '<button type="button" class="btn btn-email" data-send="email"'+(state.centro?"":" disabled")+'>Enviar por email</button>'+
+      '<button type="button" class="btn btn-copy" data-send="copy" id="btn-copy">Copiar resumen</button>'+
+    '</div>'+
+    (state.centro?'':'<p class="validation-hint">Elige el centro para poder enviarlo.</p>')+
+    '<p class="sent-note">Tus datos se guardan solo en este dispositivo para mostrarte tu evolución semana a semana.</p>';
+    return h;
+  }
+
+  /* ---------------------------------------------------------
+     Mensaje final (para el fisioterapeuta)
+     --------------------------------------------------------- */
+  var DIVIDER = "──────────────────";
+  function sesionMsg(k){
+    var s = state.sesiones[k], meta = SESSION_META[k];
+    if(!s.hecha) return meta.label+": sin responder";
+    if(s.hecha==="No lo hice") return meta.label+": no realizado"+(s.motivoNo?" ("+s.motivoNo+")":"");
+    var parts = [ (s.hecha==="Sí, parcial"?"parcial":"completo") ];
+    if(s.dia) parts.push(s.dia);
+    if(s.tipo) parts.push(s.tipo);
+    if(s.duracion) parts.push(s.duracion);
+    parts.push("esfuerzo "+s.rpe+"/10");
+    parts.push("*dolor post "+s.dolor+"/10*"+(s.momento?" ("+s.momento.toLowerCase()+")":""));
+    parts.push("*satisfacción "+s.satisf+"/10*");
+    var line = meta.label+": "+parts.join(" · ");
+    if(meta.kind==="padel" && s.gestos.length) line += "\n   Gestos incómodos: "+s.gestos.join(", ");
+    if(s.nota) line += "\n   Nota: "+s.nota;
+    return line;
+  }
+  function marksText(){
+    var out = [];
+    ["anterior","posterior"].forEach(function(v){
+      ZONES[v].forEach(function(z){
+        var mk = state.body[v][z.id];
+        if(mk){ out.push(z.label+" ("+MARK_TYPES.filter(function(m){return m.key===mk;})[0].short+")"); }
+      });
+    });
+    return out.length ? out.join(", ") : "sin zonas marcadas";
+  }
+  function buildMessage(){
+    var m = computeMetrics();
+    var prev = previousWeek(loadHistory());
+    var centro = CENTROS.filter(function(c){return c.key===state.centro;})[0];
+    var L = [];
+    L.push("📒 *DIARIO SEMANAL KINETIQ · CEFALEA TENSIONAL*");
+    L.push("👤 "+(state.nombre||"—"));
+    L.push("📍 "+(centro?centro.label:"Centro no indicado")+"   ·   📅 Semana del "+weekRangeLabel(state.semana));
+    L.push(DIVIDER);
+    L.push("🔥 *CEFALEA*");
+    L.push("Días con molestia: *"+(m.dias===null?"—":m.dias+"/7")+"*"+(prev?"   (sem. anterior: "+prev.m.dias+")":""));
+    if(m.dias>0){
+      L.push("Intensidad media: *"+state.evaMedia+"/10*   ·   Máx.: *"+state.evaMax+"/10*"+(prev?"   (sem. anterior media: "+prev.m.evaMedia+")":""));
+      L.push("Duración: "+(state.duracion||"—"));
+      L.push("Descripción: "+(state.descriptores.join(", ")||"—"));
+      L.push("Zonas: "+marksText());
+      L.push("Acompañantes: "+(state.acompanantes.join(", ")||"—"));
+      L.push("Posibles desencadenantes: "+(state.desencadenantes.join(", ")||"—"));
+      L.push("Alivia con: "+(state.mejora.join(", ")||"—"));
+      L.push("");
+      L.push("🧩 *IMPACTO FUNCIONAL*");
+      L.push("Días limitado: "+(state.limitDias===""?"—":state.limitDias+"/7")+"   ·   Interferencia: "+state.interferencia+"/10");
+      L.push("Actividades más costosas: "+(state.actividad||"—")+"   ·   Dificultad (PSFS): "+state.dificultad+"/10");
+    }
+    L.push("");
+    L.push("💊 *MEDICACIÓN*");
+    L.push("Días con analgésico: *"+(m.medDias===null?"—":m.medDias+"/7")+"*");
+    if(m.medDias>0){
+      L.push("Detalle: "+(state.medDetalle||"sin detalle")+"   ·   Alivio a 2 h: "+(state.medAlivio||"—"));
+    }
+    L.push(DIVIDER);
+    L.push("🏋️ *ENTRENAMIENTO Y ACTIVIDAD*");
+    ["ent1","ent2","padel"].forEach(function(k){ L.push(sesionMsg(k)); });
+    L.push(DIVIDER);
+    L.push("😴 *SUEÑO, ESTRÉS Y CREENCIAS*");
+    L.push("Sueño: "+state.sueno+"/5   ·   Estrés: "+state.estres+"/5   ·   Evitar entrenar (0-6): "+state.fabq);
+    L.push("Evolución percibida (PGIC): "+(state.pgic||"—"));
+    if(state.notas) L.push("Para la próxima sesión: "+state.notas);
+    L.push(DIVIDER);
+    L.push("🚩 *CRIBADO DE SEGURIDAD*");
+    var fl = FLAGS.filter(function(f){ return state.flags[f.key]===true; });
+    if(fl.length){
+      L.push("⚠️ *"+fl.length+" de "+FLAGS.length+" — revisar con prioridad:*");
+      fl.forEach(function(f){ L.push("• "+f.text); });
+    } else { L.push("Ningún punto marcado."); }
+
+    var alerts = [];
+    if(m.medDias!==null && m.medDias>=3) alerts.push("Analgésico ≥3 días/semana: vigilar patrón de uso (riesgo de cefalea por uso excesivo si se mantiene ≥15 días/mes).");
+    if(m.dias!==null && m.dias>=4) alerts.push("Cefalea ≥4 días esta semana: frecuencia elevada.");
+    if(m.maxPost!==null && m.maxPost>=5) alerts.push("Dolor post-actividad ≥5/10 en alguna sesión: revisar dosificación de carga.");
+    if(state.sueno<=2) alerts.push("Sueño ≤2/5.");
+    if(state.estres>=4) alerts.push("Estrés ≥4/5.");
+    if(state.fabq>=4) alerts.push("Creencia de evitación del entrenamiento alta (≥4/6).");
+    if(alerts.length){
+      L.push("");
+      L.push("👀 *PARA REVISAR*");
+      alerts.forEach(function(a){ L.push("• "+a); });
+    }
+    L.push(DIVIDER);
+    L.push("_Enviado desde el diario semanal KINETIQ_");
+    return L.join("\n");
+  }
+
+  /* ---------------------------------------------------------
+     Definición de pasos
+     --------------------------------------------------------- */
+  function sessionValid(k){ return state.sesiones[k].hecha!==""; }
+  var STEPS = [
+    { id:"intro",    section:"Tu semana",                   render:renderIntro,    valid:function(){ return state.nombre.trim().length>1 && !!state.semana; } },
+    { id:"cefalea",  section:"Dolor de cabeza",             render:renderCefalea,  valid:function(){ return state.diasCefalea!==""; } },
+    { id:"body",     section:"Mapa de la molestia",         render:renderBodyChart,valid:function(){ return true; }, skip:function(){ return !hasHeadache(); } },
+    { id:"sintomas", section:"Síntomas y desencadenantes",  render:renderSintomas, valid:function(){ return true; }, skip:function(){ return !hasHeadache(); } },
+    { id:"impacto",  section:"Función y expectativas",      render:renderImpacto,  valid:function(){ return state.limitDias!==""; }, skip:function(){ return !hasHeadache(); } },
+    { id:"med",      section:"Medicación",                  render:renderMedicacion,valid:function(){ return state.medDias!==""; } },
+    { id:"sueno",    section:"Descanso y estrés",           render:renderSueno,    valid:function(){ return true; } },
+    { id:"ent1",     section:"Entrenamiento 1",             render:function(){ return renderSesion("ent1"); },  valid:function(){ return sessionValid("ent1"); } },
+    { id:"ent2",     section:"Entrenamiento 2",             render:function(){ return renderSesion("ent2"); },  valid:function(){ return sessionValid("ent2"); } },
+    { id:"padel",    section:"Día de pádel",                render:function(){ return renderSesion("padel"); }, valid:function(){ return sessionValid("padel"); } },
+    { id:"flags",    section:"Seguridad",                   render:renderFlags,    valid:function(){ return FLAGS.every(function(f){ return state.flags[f.key]!==null; }); } },
+    { id:"pgic",     section:"Evolución",                   render:renderPgic,     valid:function(){ return state.pgic!==""; } },
+    { id:"resumen",  section:"Resumen",                     render:renderResumen,  valid:function(){ return true; } }
+  ];
+  function activeSteps(){ return STEPS.filter(function(s){ return !(s.skip && s.skip()); }); }
+  function currentStep(){
+    var act = activeSteps();
+    if(state.step>=act.length) state.step = act.length-1;
+    return act[state.step];
+  }
+
+  /* ---------------------------------------------------------
+     Render
+     --------------------------------------------------------- */
+  var view = "form";
+  function render(){
+    if(view==="history"){ renderHistoryView(); return; }
+    var act = activeSteps(); var s = currentStep();
+    document.getElementById("panel").innerHTML = s.render();
+    document.getElementById("stepCount").textContent = (state.step+1)+" / "+act.length;
+    document.getElementById("progressFill").style.width = Math.round(((state.step+1)/act.length)*100)+"%";
+    document.getElementById("sectionLabel").textContent = s.section;
+    saveDraft();
+    refreshFooter();
+  }
+  function refreshFooter(){
+    var f = document.getElementById("footer");
+    if(view==="history"){
+      f.innerHTML = '<button class="btn btn-primary" data-nav="closehist">Volver</button>'; return;
+    }
+    var s = currentStep();
+    if(s.id==="resumen"){
+      f.innerHTML = '<button class="btn btn-ghost" data-nav="back">Atrás</button><button class="btn btn-primary" data-nav="restart" title="Registrar otra semana">Nueva semana ↺</button>';
+      return;
+    }
+    var ok = s.valid();
+    f.innerHTML = (state.step>0 ? '<button class="btn btn-ghost" data-nav="back">Atrás</button>' : '<div style="flex:0 0 0;"></div>')+
+      '<button class="btn btn-primary" data-nav="next" '+(ok?"":"disabled")+'>'+(ok?"Siguiente":"Completa esta pantalla")+'</button>';
+  }
+  function resetScroll(){ document.querySelector("main").scrollTop = 0; }
+
+
+  /* ---------------------------------------------------------
+     Vista "Mi evolución" (historial guardado en el móvil)
+     --------------------------------------------------------- */
+  function cssVar(n){ return "var("+n+")"; }
+  function chartSvg(labels, series, o){
+    var W=320, H=136, pl=26, pr=8, pt=10, pb=24, n=labels.length, ymax=o.ymax;
+    var iw=W-pl-pr, ih=H-pt-pb;
+    function cx(i){ return pl+(i+0.5)*iw/n; }
+    function cy(v){ return pt+ih-(v/ymax)*ih; }
+    var out = '<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="'+esc(o.aria)+'" style="width:100%;height:auto;display:block;">';
+    [0, ymax/2, ymax].forEach(function(g){
+      out += '<line x1="'+pl+'" x2="'+(W-pr)+'" y1="'+cy(g)+'" y2="'+cy(g)+'" stroke="var(--border)" stroke-width="1"/>'+
+             '<text x="'+(pl-5)+'" y="'+(cy(g)+3)+'" text-anchor="end" font-size="9" fill="var(--ink-faint)">'+(Math.round(g*10)/10)+'</text>';
+    });
+    labels.forEach(function(l,i){
+      out += '<text x="'+cx(i)+'" y="'+(H-8)+'" text-anchor="middle" font-size="8.5" fill="var(--ink-faint)">'+esc(l)+'</text>';
+    });
+    series.forEach(function(se){
+      if(o.bars){
+        var bw = Math.min(22, iw/n*0.6);
+        se.vals.forEach(function(v,i){
+          if(v===null) return;
+          var hgt = Math.max(1.5, (v/ymax)*ih);
+          out += '<rect x="'+(cx(i)-bw/2)+'" y="'+(pt+ih-hgt)+'" width="'+bw+'" height="'+hgt+'" rx="3" fill="'+se.color+'"/>'+
+                 '<text x="'+cx(i)+'" y="'+(pt+ih-hgt-3)+'" text-anchor="middle" font-size="9" fill="var(--ink-soft)">'+v+'</text>';
+        });
+      } else {
+        var seg = [];
+        function flush(){ if(seg.length>1) out += '<polyline fill="none" stroke="'+se.color+'" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" points="'+seg.join(" ")+'"/>'; seg=[]; }
+        se.vals.forEach(function(v,i){
+          if(v===null){ flush(); return; }
+          seg.push(cx(i)+","+cy(v));
+        });
+        flush();
+        se.vals.forEach(function(v,i){
+          if(v!==null) out += '<circle cx="'+cx(i)+'" cy="'+cy(v)+'" r="3.2" fill="'+se.color+'" stroke="var(--surface)" stroke-width="1.2"/>';
+        });
+      }
+    });
+    return out + '</svg>';
+  }
+  function legend(series){
+    if(series.length<2) return '';
+    return '<div style="display:flex;flex-wrap:wrap;gap:12px;font-size:12px;color:var(--ink-soft);">'+series.map(function(s){
+      return '<span style="display:inline-flex;align-items:center;gap:6px;"><span style="width:10px;height:10px;border-radius:50%;background:'+s.color+';"></span>'+esc(s.name)+'</span>';
+    }).join("")+'</div>';
+  }
+  function chartCard(title, labels, series, o){
+    if(series.every(function(se){ return se.vals.every(function(v){ return v===null; }); })) return '';
+    return '<div class="summary-card"><h3>'+title+'</h3>'+chartSvg(labels,series,o)+legend(series)+(o.note?'<p class="slider-help">'+o.note+'</p>':'')+'</div>';
+  }
+  function avgOf(arr){
+    var v = arr.filter(function(x){ return x!==null && x!==undefined; });
+    return v.length ? Math.round(v.reduce(function(a,b){ return a+b; },0)/v.length*10)/10 : null;
+  }
+  function weekSeries(hist, keys, fn){ return keys.map(function(k){ var v = fn(hist[k]); return (v===undefined||v===null||isNaN(v)) ? null : v; }); }
+
+  function renderHistoryView(){
+    var store = loadStore(), hist = store.semanas;
+    var keys = Object.keys(hist).sort(), shown = keys.slice(-12);
+    var labels = shown.map(function(k){ return shortDate(parseISO(k)); });
+    var accent = "var(--accent-deep)", warn = "var(--m-principal)", amber = "var(--m-irradia)", blue = "var(--m-hormigueo)";
+    function entreno(m, f){ if(!m.ses) return null; return avgOf([m.ses.ent1 && m.ses.ent1[f], m.ses.ent2 && m.ses.ent2[f]].map(function(x){ return x===undefined?null:x; })); }
+    function padel(m, f){ return (m.ses && m.ses.padel) ? m.ses.padel[f] : null; }
+
+    var h = '<div class="welcome-hero"><div class="kicker">Guardado en este móvil</div><h1 class="q-title">Mi evolución</h1>'+
+      '<p class="q-help">'+(keys.length ? keys.length+(keys.length===1?" semana registrada":" semanas registradas")+'. Se actualiza cada vez que completas una semana.' : 'Aún no hay semanas guardadas. Completa tu primer registro semanal y aparecerá aquí.')+'</p></div>';
+
+    if(keys.length){
+      if(keys.length>1){
+        var first = hist[keys[0]], last = hist[keys[keys.length-1]];
+        function delta(a,b){ var d = Math.round((b-a)*10)/10; return a+" → "+b+" ("+(d>0?"+":"")+d+")"; }
+        h += summaryCard("Primera semana → última", [
+          ["Días con molestia", delta(first.dias,last.dias)],
+          ["Intensidad media", delta(first.evaMedia,last.evaMedia)],
+          ["Días con analgésico", (first.medDias===null||last.medDias===null)?"—":delta(first.medDias,last.medDias)]
+        ]);
+      }
+      h += chartCard("Días con molestia de cabeza", labels, [{name:"Días", color:accent, vals:weekSeries(hist,shown,function(m){ return m.dias; })}], {ymax:7, bars:true, aria:"Días con molestia por semana"});
+      h += chartCard("Intensidad (0-10)", labels, [
+        {name:"Media", color:accent, vals:weekSeries(hist,shown,function(m){ return m.dias>0?m.evaMedia:0; })},
+        {name:"Máxima", color:warn, vals:weekSeries(hist,shown,function(m){ return m.dias>0?m.evaMax:0; })}
+      ], {ymax:10, aria:"Intensidad media y máxima por semana"});
+      h += chartCard("Días con analgésico", labels, [{name:"Días", color:amber, vals:weekSeries(hist,shown,function(m){ return m.medDias; })}], {ymax:7, bars:true, aria:"Días con analgésico por semana"});
+      h += chartCard("Dolor tras entrenar (0-10)", labels, [
+        {name:"Entrenamientos", color:accent, vals:weekSeries(hist,shown,function(m){ return entreno(m,"dolor"); })},
+        {name:"Pádel", color:blue, vals:weekSeries(hist,shown,function(m){ return padel(m,"dolor"); })}
+      ], {ymax:10, aria:"Dolor después de entrenar", note:"Las semanas sin sesión no aparecen en la línea."});
+      h += chartCard("Satisfacción con las sesiones (0-10)", labels, [
+        {name:"Entrenamientos", color:accent, vals:weekSeries(hist,shown,function(m){ return entreno(m,"satisf"); })},
+        {name:"Pádel", color:blue, vals:weekSeries(hist,shown,function(m){ return padel(m,"satisf"); })}
+      ], {ymax:10, aria:"Satisfacción con las sesiones"});
+      h += chartCard("Sueño y estrés (1-5)", labels, [
+        {name:"Sueño", color:accent, vals:weekSeries(hist,shown,function(m){ return m.sueno; })},
+        {name:"Estrés", color:amber, vals:weekSeries(hist,shown,function(m){ return m.estres; })}
+      ], {ymax:5, aria:"Sueño y estrés por semana"});
+      if(keys.length>12) h += '<p class="sent-note">Se muestran las últimas 12 semanas; el resto sigue guardado.</p>';
+    }
+
+    h += '<div class="summary-card"><h3>Copia de seguridad</h3>'+
+      '<p class="slider-help">Tus datos viven solo en este móvil y se pierden si borras los datos del navegador o cambias de teléfono. Guarda una copia de vez en cuando o envíasela a tu fisio.</p>'+
+      '<div class="send-col">'+
+        '<button type="button" class="btn btn-copy" data-export'+(keys.length?"":" disabled")+'>⬇️ Descargar copia (.json)</button>'+
+        '<button type="button" class="btn btn-copy" data-copyhist'+(keys.length?"":" disabled")+'>Copiar historial como texto</button>'+
+        '<button type="button" class="btn btn-copy" data-import-btn>⬆️ Restaurar una copia</button>'+
+        '<input type="file" accept="application/json,.json" id="importFile" style="display:none;">'+
+        (keys.length?'<button type="button" class="btn btn-copy" data-wipe style="color:var(--alert);">Borrar mi historial</button>':'')+
+      '</div><p class="sent-note" id="histMsg"></p></div>';
+
+    document.getElementById("panel").innerHTML = h;
+    document.getElementById("stepCount").textContent = "";
+    document.getElementById("progressFill").style.width = "100%";
+    document.getElementById("sectionLabel").textContent = "Mi evolución";
+    refreshFooter();
+  }
+  function histMsg(t){ var m=document.getElementById("histMsg"); if(m) m.textContent=t; }
+  function historyText(){
+    var hist = loadHistory(), keys = Object.keys(hist).sort();
+    var rows = ["semana;dias_cefalea;eva_media;eva_max;dias_analgesico;dolor_entrenos;satisf_entrenos;dolor_padel;satisf_padel;sueno;estres;pgic"];
+    keys.forEach(function(k){
+      var m = hist[k], ses = m.ses||{};
+      function av(f){ return avgOf([ses.ent1&&ses.ent1[f], ses.ent2&&ses.ent2[f]].map(function(x){ return x===undefined?null:x; })); }
+      function nz(v){ return (v===null||v===undefined)?"":v; }
+      rows.push([k, m.dias, m.evaMedia, m.evaMax, nz(m.medDias), nz(av("dolor")), nz(av("satisf")), nz(ses.padel&&ses.padel.dolor), nz(ses.padel&&ses.padel.satisf), m.sueno, m.estres, (m.pgic||"")].join(";"));
+    });
+    return rows.join("\n");
+  }
+  function exportBackup(){
+    var data = JSON.stringify({ app:"kinetiq-diario-cefalea", version:2, exportado:new Date().toISOString(), store:loadStore() }, null, 1);
+    var blob = new Blob([data], {type:"application/json"});
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(blob); a.download = "kinetiq_diario_copia_"+isoDate(new Date())+".json";
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(function(){ URL.revokeObjectURL(a.href); }, 2000);
+    histMsg("Copia descargada.");
+  }
+  function importBackup(file){
+    var r = new FileReader();
+    r.onload = function(){
+      try{
+        var o = JSON.parse(r.result); var st = o && o.store;
+        if(!st || !st.semanas || typeof st.semanas!=="object") throw new Error("formato");
+        var cur = loadStore(), added = 0;
+        Object.keys(st.semanas).forEach(function(k){ if(/^\d{4}-\d{2}-\d{2}$/.test(k)){ cur.semanas[k] = st.semanas[k]; added++; } });
+        if(st.perfil && !cur.perfil.nombre) cur.perfil = st.perfil;
+        saveStore(cur); renderHistoryView(); histMsg("Copia restaurada: "+added+" semanas.");
+      }catch(e){ histMsg("No se pudo leer ese archivo. Comprueba que es una copia del diario."); }
+    };
+    r.readAsText(file);
+  }
+
+  /* ---------------------------------------------------------
+     Envío
+     --------------------------------------------------------- */
+  function copyText(txt, done){
+    function fallback(){
+      var ta = document.createElement("textarea"); ta.value = txt; ta.style.position="fixed"; ta.style.opacity="0";
+      document.body.appendChild(ta); ta.select();
+      try{ document.execCommand("copy"); }catch(e){}
+      document.body.removeChild(ta); done();
+    }
+    if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(txt).then(done, fallback); } else { fallback(); }
+  }
+  function handleSend(kind){
+    var msg = buildMessage();
+    if(kind==="copy"){
+      copyText(msg, function(){ var b=document.getElementById("btn-copy"); if(b){ b.textContent="¡Copiado!"; setTimeout(function(){ b.textContent="Copiar resumen"; },1800); } });
+      return;
+    }
+    if(!state.centro) return;
+    var centro = CENTROS.filter(function(c){return c.key===state.centro;})[0];
+    if(kind==="whatsapp"){
+      window.location.href = "https://wa.me/"+centro.whatsapp+"?text="+encodeURIComponent(msg);
+    } else if(kind==="email"){
+      var subject = "Diario semanal KINETIQ — "+(state.nombre||"paciente")+" — "+weekRangeLabel(state.semana);
+      window.location.href = "mailto:"+CONFIG.email+"?subject="+encodeURIComponent(subject)+"&body="+encodeURIComponent(msg);
+    }
+  }
+
+  /* ---------------------------------------------------------
+     Eventos
+     --------------------------------------------------------- */
+  var panel = document.getElementById("panel");
+  panel.addEventListener("click", function(e){
+    var t = e.target;
+    var chip = t.closest("[data-chip]");
+    if(chip){
+      var key = chip.getAttribute("data-key"), val = chip.getAttribute("data-value"), multi = chip.getAttribute("data-multi")==="1";
+      if(multi){
+        var arr = getPath(state,key), i = arr.indexOf(val);
+        if(i>-1) arr.splice(i,1); else {
+          if(val==="Ninguno en especial"||val==="Ninguno claro"){ arr.length=0; }
+          else { ["Ninguno en especial","Ninguno claro"].forEach(function(n){ var j=arr.indexOf(n); if(j>-1) arr.splice(j,1); }); }
+          arr.push(val);
+        }
+      } else {
+        setPath(state,key, getPath(state,key)===val ? "" : val);
+      }
+      var sc = document.querySelector("main").scrollTop; render(); document.querySelector("main").scrollTop = sc; return;
+    }
+    var fl = t.closest("[data-flag]");
+    if(fl){ state.flags[fl.getAttribute("data-flag")] = fl.getAttribute("data-value")==="si"; var sc2=document.querySelector("main").scrollTop; render(); document.querySelector("main").scrollTop=sc2; return; }
+    var mk = t.closest("[data-marker]");
+    if(mk){ state.markerActive = mk.getAttribute("data-marker"); render(); return; }
+    var vw = t.closest("[data-view]");
+    if(vw){ state.bodyView = vw.getAttribute("data-view"); render(); return; }
+    var zn = t.closest("[data-zone]");
+    if(zn){ toggleZone(zn.getAttribute("data-zone")); return; }
+    var cz = t.closest("[data-clear-zone]");
+    if(cz){ var p = cz.getAttribute("data-clear-zone").split("|"); delete state.body[p[0]][p[1]]; render(); return; }
+    var ce = t.closest("[data-centro]");
+    if(ce){ state.centro = ce.getAttribute("data-centro"); var sc3=document.querySelector("main").scrollTop; render(); document.querySelector("main").scrollTop=sc3; return; }
+    var sd = t.closest("[data-send]");
+    if(sd){ handleSend(sd.getAttribute("data-send")); return; }
+    if(t.closest("[data-open-history]")){ view = "history"; renderHistoryView(); resetScroll(); return; }
+    if(t.closest("[data-export]")){ exportBackup(); return; }
+    if(t.closest("[data-copyhist]")){ copyText(historyText(), function(){ histMsg("Historial copiado."); }); return; }
+    if(t.closest("[data-import-btn]")){ var fi = document.getElementById("importFile"); if(fi) fi.click(); return; }
+    var wp = t.closest("[data-wipe]");
+    if(wp){
+      if(wp.getAttribute("data-armed")!=="1"){ wp.setAttribute("data-armed","1"); wp.textContent="Toca otra vez para borrar todo"; return; }
+      var st0 = loadStore(); st0.semanas = {}; saveStore(st0); renderHistoryView(); histMsg("Historial borrado."); return;
+    }
+  });
+  panel.addEventListener("change", function(e){
+    if(e.target && e.target.id==="importFile" && e.target.files && e.target.files[0]) importBackup(e.target.files[0]);
+  });
+  panel.addEventListener("keydown", function(e){
+    if((e.key==="Enter"||e.key===" ") && e.target.getAttribute && e.target.getAttribute("data-zone")){
+      e.preventDefault(); toggleZone(e.target.getAttribute("data-zone"));
+    }
+  });
+  function toggleZone(id){
+    var v = state.bodyView, cur = state.body[v][id];
+    if(cur===state.markerActive) delete state.body[v][id]; else state.body[v][id] = state.markerActive;
+    render();
+  }
+  function syncSlider(path, v){
+    setPath(state, path, v);
+    var el = panel.querySelector('[data-slider="'+path+'"]'), out = document.getElementById("val-"+path);
+    if(el){ el.value = v; var c = painColor(v, 0, 10); el.style.setProperty("--thumb-color", c); if(out) out.style.color = c; }
+    if(out) out.textContent = v;
+  }
+  panel.addEventListener("input", function(e){
+    var t = e.target;
+    if(t.hasAttribute("data-slider")){
+      var path = t.getAttribute("data-slider"), v = Number(t.value);
+      setPath(state,path,v);
+      var out = document.getElementById("val-"+path);
+      if(out){ out.textContent = v; }
+      if(t.getAttribute("data-pain")){
+        var c = painColor(v, Number(t.getAttribute("data-min")), Number(t.getAttribute("data-max")));
+        t.style.setProperty("--thumb-color", c); if(out) out.style.color = c;
+      }
+      /* La intensidad máxima nunca puede quedar por debajo de la media */
+      if(path==="evaMedia" && v>state.evaMax) syncSlider("evaMax", v);
+      if(path==="evaMax" && v<state.evaMedia) syncSlider("evaMedia", v);
+    } else if(t.hasAttribute("data-text")){
+      setPath(state, t.getAttribute("data-text"), t.value);
+      refreshFooter();
+    } else if(t.hasAttribute("data-date")){
+      if(t.value){ state.semana = isoDate(mondayOf(parseISO(t.value))); }
+      var cap = panel.querySelector(".q-help b"); if(cap) cap.textContent = weekRangeLabel(state.semana);
+      refreshFooter();
+    }
+    saveDraft();
+  });
+  document.getElementById("footer").addEventListener("click", function(e){
+    var b = e.target.closest("[data-nav]"); if(!b) return;
+    var nav = b.getAttribute("data-nav");
+    if(nav==="next"){ if(currentStep().valid()){ state.step++; render(); resetScroll(); } }
+    else if(nav==="back"){ if(state.step>0){ state.step--; render(); resetScroll(); } }
+    else if(nav==="closehist"){ view = "form"; render(); resetScroll(); }
+    else if(nav==="restart"){
+      clearDraft();
+      state = freshState({ nombre:state.nombre, centro:state.centro });
+      var d = new Date(); state.semana = isoDate(mondayOf(d));
+      state.step = 0; render(); resetScroll();
+    }
+  });
+
+  (function init(){
+    var store = loadStore(), d = loadDraft();
+    if(d && typeof d==="object" && d.sesiones){
+      var finished = !!d.completado;
+      if(!finished){
+        var base = freshState();
+        Object.keys(d).forEach(function(k){ base[k] = d[k]; });
+        ["ent1","ent2","padel"].forEach(function(k){ base.sesiones[k] = Object.assign(newSession(), d.sesiones[k]||{}); });
+        state = base;
+      }
+    }
+    if(!state.nombre && store.perfil && store.perfil.nombre) state.nombre = store.perfil.nombre;
+    if(!state.centro && store.perfil && store.perfil.centro) state.centro = store.perfil.centro;
+    try{ if(navigator.storage && navigator.storage.persist) navigator.storage.persist(); }catch(e){}
+  })();
+  render();
+  window.__diario = { get state(){ return state; }, buildMessage: buildMessage };
+})();
+</script>
+</html>
